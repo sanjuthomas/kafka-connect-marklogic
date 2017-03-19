@@ -6,6 +6,7 @@ import org.apache.kafka.common.config.AbstractConfig;
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.common.config.ConfigDef.Type;
 import org.apache.kafka.common.config.ConfigDef.Importance;
+
 /**
  * 
  * @author Sanju Thomas
@@ -21,17 +22,20 @@ public class MarkLogicSinkConfig extends AbstractConfig {
 
 	public static final String CONNECTION_PASSWORD = "ml.connection.password";
 	private static final String CONNECTION_PASSWORD_DOC = "ml connection password";
-	
+
 	public static final String BATCH_SIZE = "ml.batch.size";
 	private static final String BATCH_SIZE_DOC = "ml batch size";
-	
 
 	public MarkLogicSinkConfig(ConfigDef definition, Map<?, ?> originals) {
 		super(definition, originals);
-		definition.define(CONNECTION_URL, Type.STRING, Importance.HIGH, CONNECTION_URL_DOC)
-	     .define(CONNECTION_USER, Type.STRING, Importance.HIGH, CONNECTION_USER_DOC)
-	     .define(CONNECTION_PASSWORD, Type.STRING, Importance.LOW, CONNECTION_PASSWORD_DOC)
-	     .define(BATCH_SIZE, Type.STRING, Importance.LOW, BATCH_SIZE_DOC);
+		definition
+				.define(CONNECTION_URL, Type.STRING, Importance.HIGH,
+						CONNECTION_URL_DOC)
+				.define(CONNECTION_USER, Type.STRING, Importance.HIGH,
+						CONNECTION_USER_DOC)
+				.define(CONNECTION_PASSWORD, Type.STRING, Importance.LOW,
+						CONNECTION_PASSWORD_DOC)
+				.define(BATCH_SIZE, Type.STRING, Importance.LOW, BATCH_SIZE_DOC);
 	}
 
 }
