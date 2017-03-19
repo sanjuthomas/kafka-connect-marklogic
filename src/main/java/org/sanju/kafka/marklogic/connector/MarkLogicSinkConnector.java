@@ -34,8 +34,7 @@ public class MarkLogicSinkConnector extends SinkConnector{
 
 	@Override
 	public Class<? extends Task> taskClass() {
-		// TODO Auto-generated method stub
-		return null;
+		return MarkLogicSincTask.class;
 	}
 
 	@Override
