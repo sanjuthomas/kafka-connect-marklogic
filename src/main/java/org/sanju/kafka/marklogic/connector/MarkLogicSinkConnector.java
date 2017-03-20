@@ -13,6 +13,8 @@ import org.apache.kafka.connect.sink.SinkConnector;
  *
  */
 public class MarkLogicSinkConnector extends SinkConnector{
+	
+	public static final String MarkLogicSinkConnectorVersion = "1.0";
 
 	@Override
 	public ConfigDef config() {
