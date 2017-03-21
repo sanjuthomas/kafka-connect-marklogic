@@ -10,7 +10,6 @@ import java.util.Map;
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpRequestBase;
@@ -21,6 +20,8 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.kafka.clients.consumer.OffsetAndMetadata;
+import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.connect.data.Struct;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.apache.kafka.connect.sink.SinkTask;
@@ -36,9 +37,9 @@ import com.google.common.collect.Lists;
  * @author Sanju Thomas
  *
  */
-public class MarkLogicSincTask extends SinkTask {
+public class MarkLogicSinkTask extends SinkTask {
 
-	private static final Logger logger = LoggerFactory.getLogger(MarkLogicSincTask.class);
+	private static final Logger logger = LoggerFactory.getLogger(MarkLogicSinkTask.class);
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 	private final ContentType DEFAULT_CONTENT_TYPE = ContentType.APPLICATION_JSON;
 
@@ -49,15 +50,17 @@ public class MarkLogicSincTask extends SinkTask {
 	private String password = "admin";
 
 	@Override
-	public void put(final Collection<SinkRecord> arg0) {
+	public void put(final Collection<SinkRecord> records) {
 
-		final List<SinkRecord> records = new ArrayList<>(arg0);
 		final int partitionSize = records.size() / batchSize;
-		final List<List<SinkRecord>> recordsPartitions = Lists.partition(records, partitionSize);
-
-		recordsPartitions.forEach(recordPartition -> {
-			// write into ML
-			});
+		final List<Struct> values = new ArrayList<>();
+		records.forEach(record -> {
+			values.add((Struct) record.value());
+		});
+		final List<List<Struct>> recordsPartitions = Lists.partition(values, partitionSize);
+		recordsPartitions.forEach(partitions ->{
+			process(createPostRequest(partitions));
+		});
 	}
 
 	@Override
@@ -69,14 +72,19 @@ public class MarkLogicSincTask extends SinkTask {
 			user = config.get(MarkLogicSinkConfig.CONNECTION_USER);
 			password = config.get(MarkLogicSinkConfig.CONNECTION_PASSWORD);
 		} catch (Exception e) {
-			// batch size is defaulted to 100
+			// values will be defaulted
 		}
 	}
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
 
+		logger.info("stop called");
+	}
+	
+	public void flush(Map<TopicPartition, OffsetAndMetadata> currentOffsets) {
+		
+		logger.info("flush called");
 	}
 
 	public String version() {
@@ -114,19 +122,25 @@ public class MarkLogicSincTask extends SinkTask {
 			return request;
 		} catch (URISyntaxException e) {
 			logger.error(e.getMessage(), e);
+			throw new RuntimeException(e);
 		} catch (JsonProcessingException e) {
 			logger.error(e.getMessage(), e);
+			throw new RuntimeException(e);
 		}
-		return null;
 	}
 	
-	private HttpResponse process(final HttpRequestBase request) throws ClientProtocolException, IOException {
+	private HttpResponse process(final HttpRequestBase request) {
 
 		final CloseableHttpClient httpClient = HttpClients.createDefault();
 		final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
 		credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(user, password));
 		final HttpClientContext localContext = HttpClientContext.create();
 		localContext.setCredentialsProvider(credentialsProvider);
-		return httpClient.execute(request, localContext);
+		try {
+			return httpClient.execute(request, localContext);
+		} catch (IOException e) {
+			logger.error(e.getMessage(), e);
+			throw new RuntimeException(e);
+		}
 	}
 }

@@ -36,7 +36,7 @@ public class MarkLogicSinkConnector extends SinkConnector{
 
 	@Override
 	public Class<? extends Task> taskClass() {
-		return MarkLogicSincTask.class;
+		return MarkLogicSinkTask.class;
 	}
 
 	@Override
