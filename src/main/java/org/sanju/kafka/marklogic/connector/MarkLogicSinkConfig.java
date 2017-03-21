@@ -17,9 +17,8 @@ public class MarkLogicSinkConfig extends AbstractConfig {
 	public static final String CONNECTION_URL = "ml.connection.url";
 	private static final String CONNECTION_URL_DOC = "ml application server connection URL";
 	
-	public static final String ENDPOINT= "ml.endpoint";
+	public static final String ENDPOINT = "ml.endpoint";
 	private static final String ENDPOINT_DOC = "ml rest endpoint";
-	
 
 	public static final String CONNECTION_USER = "ml.connection.user";
 	private static final String CONNECTION_USER_DOC = "ml connection user.";
