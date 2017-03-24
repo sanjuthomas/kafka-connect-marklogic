@@ -7,6 +7,8 @@ import java.util.Map;
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.connect.connector.Task;
 import org.apache.kafka.connect.sink.SinkConnector;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -15,6 +17,7 @@ import org.apache.kafka.connect.sink.SinkConnector;
  */
 public class MarkLogicSinkConnector extends SinkConnector{
 	
+	private static final Logger logger = LoggerFactory.getLogger(MarkLogicSinkConnector.class);
 	public static final String MARKLOGIC_CONNECTOR_VERSION = "1.0";
 	
 	private Map<String, String> config;
@@ -32,7 +35,7 @@ public class MarkLogicSinkConnector extends SinkConnector{
 
 	@Override
 	public void stop() {
-		
+		logger.info("stop called");
 	}
 
 	@Override

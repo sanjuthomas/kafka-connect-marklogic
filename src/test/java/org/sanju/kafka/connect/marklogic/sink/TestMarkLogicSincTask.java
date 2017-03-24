@@ -8,7 +8,6 @@ import java.util.Map;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.junit.Before;
 import org.junit.Test;
-import org.sanju.kafka.connect.marklogic.sink.TestMarkLogicWriter.Document;
 
 /**
  * 
