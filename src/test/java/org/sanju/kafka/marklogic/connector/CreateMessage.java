@@ -27,8 +27,7 @@ public class CreateMessage {
 	      Producer<String, String> producer = new KafkaProducer<String, String>(props);
 	            
 	      for(int i = 0; i < 1000; i++)
-	         producer.send(new ProducerRecord<String, String>(topicName, 
-	            Integer.toString(i), Integer.toString(i)));
+	         producer.send(new ProducerRecord<String, String>(topicName, Integer.toString(i)));
 	            producer.flush();
 	            producer.close();
 	            System.out.println("Message sent successfully");
