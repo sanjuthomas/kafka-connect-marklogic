@@ -29,7 +29,8 @@ public class MarkLogicSinkTask extends SinkTask {
 	public void put(final Collection<SinkRecord> records) {
 
 		final int partitionSize = records.size() / batchSize;
-		final List<List<SinkRecord>> recordsPartitions = Lists.partition(new ArrayList<>(records), partitionSize);
+		final List<List<SinkRecord>> recordsPartitions = Lists.partition(new ArrayList<>(records), 
+				partitionSize == 0 ? 1 : partitionSize);
 		recordsPartitions.forEach(partitions ->{
 			writer.write(partitions);
 		});
@@ -41,7 +42,7 @@ public class MarkLogicSinkTask extends SinkTask {
 			writer = new MarkLogicWriter(config);
 			batchSize = Integer.valueOf(config.get(MarkLogicSinkConfig.BATCH_SIZE));
 		} catch (Exception e) {
-			// values will be defaulted
+			logger.warn("batch size set to 100");
 		}
 	}
 

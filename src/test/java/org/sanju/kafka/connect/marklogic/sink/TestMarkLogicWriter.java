@@ -28,6 +28,8 @@ public class TestMarkLogicWriter {
 		conf.put(MarkLogicSinkConfig.CONNECTION_PASSWORD, "admin");
 		
 		markLogicWriter = new MarkLogicWriter(conf);
+		
+		System.out.println(2/100);
 	}
 	
 	@Test
