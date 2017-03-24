@@ -2,6 +2,7 @@ package org.sanju.kafka.connect.marklogic.sink;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -38,11 +39,10 @@ public class MarkLogicWriter implements Writer{
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 	private final ContentType DEFAULT_CONTENT_TYPE = ContentType.APPLICATION_JSON;
 
-	private String connectionUrl = "http://localhost:8000";
-	private String endpoint = "/v1/documents";
-	private String user = "admin";
-	private String password = "admin";
-	
+	private final String connectionUrl;
+	private final String endpoint;
+	private final String user;
+	private final String password;
 	
 	public MarkLogicWriter(Map<String, String> config){
 		
@@ -54,8 +54,12 @@ public class MarkLogicWriter implements Writer{
 	
 	@Override
 	public boolean write(List<SinkRecord> records) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		final List<Struct> values = new ArrayList<>();
+		records.forEach(record -> values.add((Struct) record.value()));
+		final HttpPost post = createPostRequest(values);
+		final HttpResponse response = process(post);
+		return (response.getStatusLine().getStatusCode() == 200);
 	}
 	
 	/**

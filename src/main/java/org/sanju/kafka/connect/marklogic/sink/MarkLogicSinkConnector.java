@@ -1,5 +1,6 @@
 package org.sanju.kafka.connect.marklogic.sink;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,43 +15,47 @@ import org.apache.kafka.connect.sink.SinkConnector;
  */
 public class MarkLogicSinkConnector extends SinkConnector{
 	
-	public static final String MarkLogicSinkConnectorVersion = "1.0";
+	public static final String MARKLOGIC_CONNECTOR_VERSION = "1.0";
+	
+	private Map<String, String> config;
 
 	@Override
 	public ConfigDef config() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return MarkLogicSinkConfig.CONFIG_DEF;
 	}
 
 	@Override
 	public void start(Map<String, String> arg0) {
-		// TODO Auto-generated method stub
-		
+		config = arg0;
 	}
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
 		
 	}
 
 	@Override
 	public Class<? extends Task> taskClass() {
+		
 		return MarkLogicSinkTask.class;
 	}
 
 	@Override
-	public List<Map<String, String>> taskConfigs(int arg0) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Map<String, String>> taskConfigs(int taskCunt) {
+	
+	    final List<Map<String, String>> configs = new ArrayList<>(taskCunt);
+	    for (int i = 0; i < taskCunt; ++i) {
+	      configs.add(config);
+	    }
+	    return configs;
 	}
 
 	@Override
 	public String version() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return MARKLOGIC_CONNECTOR_VERSION;
 	}
-	
 	
 
 }

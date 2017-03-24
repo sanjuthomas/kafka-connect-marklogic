@@ -28,6 +28,8 @@ public class MarkLogicSinkConfig extends AbstractConfig {
 
 	public static final String BATCH_SIZE = "ml.batch.size";
 	private static final String BATCH_SIZE_DOC = "ml batch size";
+	
+	public static ConfigDef CONFIG_DEF;
 
 	public MarkLogicSinkConfig(ConfigDef definition, Map<?, ?> originals) {
 		super(definition, originals);
@@ -41,6 +43,7 @@ public class MarkLogicSinkConfig extends AbstractConfig {
 				.define(CONNECTION_PASSWORD, Type.STRING, Importance.LOW,
 						CONNECTION_PASSWORD_DOC)
 				.define(BATCH_SIZE, Type.STRING, Importance.LOW, BATCH_SIZE_DOC);
+		CONFIG_DEF =  definition;
 	}
 
 }

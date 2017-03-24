@@ -58,7 +58,7 @@ public class MarkLogicSinkTask extends SinkTask {
 
 	public String version() {
 
-		return MarkLogicSinkConnector.MarkLogicSinkConnectorVersion;
+		return MarkLogicSinkConnector.MARKLOGIC_CONNECTOR_VERSION;
 	}
 
 	
