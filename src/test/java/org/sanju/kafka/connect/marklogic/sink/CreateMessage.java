@@ -15,7 +15,7 @@ public class CreateMessage {
 		
 	      String topicName = "documents";
 	      Properties props = new Properties();
-	      props.put("bootstrap.servers", "localhost:32779");
+	      props.put("bootstrap.servers", "localhost:9092");
 	      props.put("acks", "all");
 	      props.put("retries", 3);
 	      props.put("batch.size", 16384);
@@ -26,7 +26,7 @@ public class CreateMessage {
 	      
 	      Producer<String, String> producer = new KafkaProducer<String, String>(props);
 	            
-	      for(int i = 0; i < 1000; i++)
+	      for(int i = 1000; i < 10000; i++)
 	         producer.send(new ProducerRecord<String, String>(topicName, Integer.toString(i)));
 	            producer.flush();
 	            producer.close();

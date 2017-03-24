@@ -1,16 +1,18 @@
 package org.sanju.kafka.connect.marklogic.sink;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URISyntaxException;
-import java.util.ArrayList;
+import java.net.URL;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.methods.HttpPost;
+import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.HttpClientContext;
 import org.apache.http.client.utils.URIBuilder;
@@ -19,7 +21,6 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.kafka.connect.data.Struct;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -40,38 +41,35 @@ public class MarkLogicWriter implements Writer{
 	private final ContentType DEFAULT_CONTENT_TYPE = ContentType.APPLICATION_JSON;
 
 	private final String connectionUrl;
-	private final String endpoint;
 	private final String user;
 	private final String password;
 	
 	public MarkLogicWriter(Map<String, String> config){
 		
 		connectionUrl = config.get(MarkLogicSinkConfig.CONNECTION_URL);
-		endpoint = config.get(MarkLogicSinkConfig.ENDPOINT);
 		user = config.get(MarkLogicSinkConfig.CONNECTION_USER);
 		password = config.get(MarkLogicSinkConfig.CONNECTION_PASSWORD);
 	}
 	
 	@Override
-	public boolean write(List<SinkRecord> records) {
-		
-		final List<Struct> values = new ArrayList<>();
-		records.forEach(record -> values.add((Struct) record.value()));
-		final HttpPost post = createPostRequest(values);
-		final HttpResponse response = process(post);
-		return (response.getStatusLine().getStatusCode() == 200);
+	public void write(List<SinkRecord> records) {
+	
+		records.parallelStream().forEach(record -> {
+			final HttpPut post = createPostRequest(record.value());
+			process(post);
+		});
 	}
 	
 	/**
 	 * @return
+	 * @throws MalformedURLException 
 	 */
-	private URIBuilder getURIBuilder() {
+	private URIBuilder getURIBuilder() throws MalformedURLException {
 
 		final URIBuilder builder = new URIBuilder();
-		final String scheme = connectionUrl.split(":")[0];
-		final String host = connectionUrl.split(":")[1];
-		builder.setScheme(scheme).setHost(host).setPath(endpoint);
-
+		final URL url = new URL(connectionUrl);
+		builder.setScheme(url.getProtocol()).setHost(url.getAuthority()).setPath(url.getPath());
+		builder.addParameter("uri", UUID.randomUUID().toString());
 		return builder;
 	}
 
@@ -80,12 +78,12 @@ public class MarkLogicWriter implements Writer{
 	 * @param payload
 	 * @return
 	 */
-	private HttpPost createPostRequest(final List<Struct> values) {
-
-		final URIBuilder uriBuilder = getURIBuilder();
+	private HttpPut createPostRequest(final Object value) {
+	
 		try {
-			final String jsonString = MAPPER.writeValueAsString(values);
-			HttpPost request = new HttpPost(uriBuilder.build());
+			final URIBuilder uriBuilder = getURIBuilder();
+			final String jsonString = MAPPER.writeValueAsString(value);
+			HttpPut request = new HttpPut(uriBuilder.build());
 			final StringEntity params = new StringEntity(jsonString, "UTF-8");
 			params.setContentType(DEFAULT_CONTENT_TYPE.toString());
 			request.setEntity(params);
@@ -94,6 +92,9 @@ public class MarkLogicWriter implements Writer{
 			logger.error(e.getMessage(), e);
 			throw new RuntimeException(e);
 		} catch (JsonProcessingException e) {
+			logger.error(e.getMessage(), e);
+			throw new RuntimeException(e);
+		} catch (MalformedURLException e) {
 			logger.error(e.getMessage(), e);
 			throw new RuntimeException(e);
 		}
