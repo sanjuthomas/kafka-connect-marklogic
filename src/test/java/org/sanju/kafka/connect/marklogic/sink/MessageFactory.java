@@ -12,7 +12,7 @@ import org.apache.kafka.clients.producer.ProducerRecord;
  * @author Sanju Thomas
  *
  */
-public class CreateMessage {
+public class MessageFactory {
 
 	public static void main(String[] args) {
 
