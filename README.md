@@ -20,7 +20,7 @@ Alternatively, you may choose to keep the jar files in a directory of your choic
 
 ## How to start connector in standalone mode?
 
-Open a shell prompt and move to kafka_home
+Open a shell prompt and move to kafka_home and execute the following.
 
 bin/connect-standalone.sh config/connect-standalone.properties config/marklogic-sink.properties
 
