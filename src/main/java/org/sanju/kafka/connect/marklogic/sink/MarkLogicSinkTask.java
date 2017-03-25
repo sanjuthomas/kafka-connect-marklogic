@@ -38,12 +38,8 @@ public class MarkLogicSinkTask extends SinkTask {
 
 	@Override
 	public void start(Map<String, String> config) {
-		try {
-			writer = new MarkLogicWriter(config);
-			batchSize = Integer.valueOf(config.get(MarkLogicSinkConfig.BATCH_SIZE));
-		} catch (Exception e) {
-			logger.warn("batch size set to 100");
-		}
+		writer = new MarkLogicWriter(config);
+		batchSize = Integer.valueOf(config.get(MarkLogicSinkConfig.BATCH_SIZE));
 	}
 
 	@Override

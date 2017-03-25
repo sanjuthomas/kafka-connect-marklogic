@@ -39,29 +39,4 @@ public class TestMarkLogicSincTask {
 		documents.add(new SinkRecord("topic", 1, null, null, null, new Document("Doe", 2), 0));
 		markLogicSinkTask.put(documents);
 	}
-	
-	class Document{
-		
-		private String name;
-		private int id;
-		
-		Document(String name, int id){
-			this.name = name;
-			this.id = id;
-		}
-		
-		public String getName() {
-			return name;
-		}
-		public void setName(String name) {
-			this.name = name;
-		}
-		public int getId() {
-			return id;
-		}
-		public void setId(int id) {
-			this.id = id;
-		}
-		
-	}
 }
