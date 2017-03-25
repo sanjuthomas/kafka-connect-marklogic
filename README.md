@@ -1,4 +1,3 @@
-
 # Overview
 
 Kafka Connect MarkLogic is a sink only connector (move message from Kafka to MarkLogic). 
