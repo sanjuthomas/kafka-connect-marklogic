@@ -51,6 +51,10 @@ public class MarkLogicWriter implements Writer{
 		password = config.get(MarkLogicSinkConfig.CONNECTION_PASSWORD);
 	}
 	
+	/**
+	 * change the implementation to DMSDK when ML 9 is available, 
+	 * until then writing one by one
+	 */
 	@Override
 	public void write(List<SinkRecord> records) {
 	
