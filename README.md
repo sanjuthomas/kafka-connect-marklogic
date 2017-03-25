@@ -30,7 +30,7 @@ To create some test message use the MessageFactory class in the test source. Upd
 
 ## Looking for source connector?
 
-Please create an issue. I'll write that for you.
+Please create an issue. I shall write that for you.
 
 ## How to contact the author?
 
