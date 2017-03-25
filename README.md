@@ -12,11 +12,11 @@ To send data to MarkLogic, this connector make use of MarkLogic REST api. By def
 
 ## How to deploy the connector in Kafka?
 
-This is a maven project. Do a clean install, and it will produce an artifact "marklogic-kafka-connector-0.0.1-SNAPSHOT.jar". Create a folder inside the kafka_home/lib and drop the above said jar and it's dependencies. 
+This is a maven project. Do a mvn clean install, and it will produce an artifact "marklogic-kafka-connector-0.0.1-SNAPSHOT.jar". Create a folder inside the kafka_home/lib and drop the above said jar and it's dependencies. 
 
 Copy the marklogic-sink.properties file into kafka_home/conf folder. Update the content of the property file as per your environment.
 
-Alternatively, you may choose to keep the jar files in another directory and export that directory into class path before starting the connector.
+Alternatively, you may choose to keep the jar files in a directory of your choice and export that directory into class path before starting the connector.
 
 ## How to start connector in standalone mode?
 
