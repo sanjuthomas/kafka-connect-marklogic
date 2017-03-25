@@ -1,10 +1,9 @@
-# kafka-connect-marklogic 
-
-![Kafka Connect MarkLogic](kafka-connect-ml-1.png)
 
 # Overview
 
 Kafka Connect MarkLogic is a sink only connector (move message from Kafka to MarkLogic). 
+
+![Kafka Connect MarkLogic](kafka-connect-ml-1.png)
 
 ## Implementation details 
 
