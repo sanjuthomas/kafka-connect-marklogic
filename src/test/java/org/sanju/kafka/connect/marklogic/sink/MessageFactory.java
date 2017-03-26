@@ -34,7 +34,7 @@ public class MessageFactory {
 		props.put("value.serializer",
 				"org.apache.kafka.connect.json.JsonSerializer");
 		Producer<String, JsonNode> producer = new KafkaProducer<String, JsonNode>(props);
-		for (int i = 1; i < 10000; i++){
+		for (int i = 0; i < 10000; i++){
 			JsonNode jsonNode = MAPPER.valueToTree(new Document(UUID.randomUUID().toString(), i));
 			producer.send(new ProducerRecord<String, JsonNode>(topicName,jsonNode));
 		}
