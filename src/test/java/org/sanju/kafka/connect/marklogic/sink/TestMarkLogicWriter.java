@@ -26,10 +26,7 @@ public class TestMarkLogicWriter {
 		conf.put(MarkLogicSinkConfig.CONNECTION_URL, "http://localhost:8000/v1/documents");
 		conf.put(MarkLogicSinkConfig.CONNECTION_USER, "admin");
 		conf.put(MarkLogicSinkConfig.CONNECTION_PASSWORD, "admin");
-		
 		markLogicWriter = new MarkLogicWriter(conf);
-		
-		System.out.println(2/100);
 	}
 	
 	@Test

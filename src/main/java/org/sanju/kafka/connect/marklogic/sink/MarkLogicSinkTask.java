@@ -22,7 +22,7 @@ import com.google.common.collect.Lists;
 public class MarkLogicSinkTask extends SinkTask {
 
 	private static final Logger logger = LoggerFactory.getLogger(MarkLogicSinkTask.class);
-	private int batchSize = 100;
+	private int batchSize;
 	private Writer writer;
 
 	@Override

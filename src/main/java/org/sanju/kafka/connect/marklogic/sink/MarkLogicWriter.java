@@ -52,15 +52,16 @@ public class MarkLogicWriter implements Writer{
 	}
 	
 	/**
-	 * change the implementation to DMSDK when ML 9 is available, 
-	 * until then writing one by one
+	 * change the implementation to DMSDK when ML 9 is available, until then writing one by one
 	 */
 	@Override
 	public void write(List<SinkRecord> records) {
 	
 		records.parallelStream().forEach(record -> {
 			final HttpPut post = createPostRequest(record.value());
-			process(post);
+			if(null != post){
+				process(post);
+			}
 		});
 	}
 	
@@ -94,14 +95,12 @@ public class MarkLogicWriter implements Writer{
 			return request;
 		} catch (URISyntaxException e) {
 			logger.error(e.getMessage(), e);
-			throw new RuntimeException(e);
 		} catch (JsonProcessingException e) {
 			logger.error(e.getMessage(), e);
-			throw new RuntimeException(e);
 		} catch (MalformedURLException e) {
 			logger.error(e.getMessage(), e);
-			throw new RuntimeException(e);
 		}
+		return null;
 	}
 	
 	private HttpResponse process(final HttpRequestBase request) {
