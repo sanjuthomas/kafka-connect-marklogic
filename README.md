@@ -40,7 +40,7 @@ Please create an issue. I shall write that for you.
 
 ## How to contact the author?
 
-Create an issue in the GitHub or send an email to ml@sanju.org
+Create an issue in the GitHub.
  
 
 
