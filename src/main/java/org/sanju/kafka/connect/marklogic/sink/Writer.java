@@ -11,5 +11,5 @@ import org.apache.kafka.connect.sink.SinkRecord;
  */
 public interface Writer {
 	
-	void write(List<SinkRecord> records);
+	void write(final List<SinkRecord> records);
 }

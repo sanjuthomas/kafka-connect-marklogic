@@ -43,7 +43,7 @@ public class MarkLogicWriter implements Writer{
 	private final String user;
 	private final String password;
 	
-	public MarkLogicWriter(Map<String, String> config){
+	public MarkLogicWriter(final Map<String, String> config){
 		
 		connectionUrl = config.get(MarkLogicSinkConfig.CONNECTION_URL);
 		user = config.get(MarkLogicSinkConfig.CONNECTION_USER);
@@ -54,7 +54,7 @@ public class MarkLogicWriter implements Writer{
 	 * change the implementation to batch using DMSDK when ML 9 is available, until then writing one by one
 	 */
 	@Override
-	public void write(List<SinkRecord> records) {
+	public void write(final List<SinkRecord> records) {
 	
 		records.parallelStream().forEach(record -> {
 			final HttpPut post = createPostRequest(record.value());

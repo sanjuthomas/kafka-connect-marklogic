@@ -37,7 +37,7 @@ public class MarkLogicSinkTask extends SinkTask {
 	}
 
 	@Override
-	public void start(Map<String, String> config) {
+	public void start(final Map<String, String> config) {
 		writer = new MarkLogicWriter(config);
 		batchSize = Integer.valueOf(config.get(MarkLogicSinkConfig.BATCH_SIZE));
 	}
@@ -48,7 +48,7 @@ public class MarkLogicSinkTask extends SinkTask {
 		logger.info("stop called");
 	}
 	
-	public void flush(Map<TopicPartition, OffsetAndMetadata> currentOffsets) {
+	public void flush(final Map<TopicPartition, OffsetAndMetadata> currentOffsets) {
 		
 		logger.info("flush called");
 	}

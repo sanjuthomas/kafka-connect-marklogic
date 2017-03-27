@@ -29,7 +29,7 @@ public class MarkLogicSinkConnector extends SinkConnector{
 	}
 
 	@Override
-	public void start(Map<String, String> arg0) {
+	public void start(final Map<String, String> arg0) {
 		config = arg0;
 	}
 
@@ -45,7 +45,7 @@ public class MarkLogicSinkConnector extends SinkConnector{
 	}
 
 	@Override
-	public List<Map<String, String>> taskConfigs(int taskCunt) {
+	public List<Map<String, String>> taskConfigs(final int taskCunt) {
 	
 	    final List<Map<String, String>> configs = new ArrayList<>(taskCunt);
 	    for (int i = 0; i < taskCunt; ++i) {

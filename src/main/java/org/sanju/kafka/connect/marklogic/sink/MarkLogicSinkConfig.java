@@ -32,7 +32,7 @@ public class MarkLogicSinkConfig extends AbstractConfig {
 			.define(CONNECTION_PASSWORD, Type.STRING, Importance.LOW, CONNECTION_PASSWORD_DOC)
 			.define(BATCH_SIZE, Type.STRING, Importance.LOW, BATCH_SIZE_DOC);
 
-	public MarkLogicSinkConfig(Map<?, ?> originals) {
+	public MarkLogicSinkConfig(final Map<?, ?> originals) {
 		
 		super(CONFIG_DEF, originals, false);
 	}
