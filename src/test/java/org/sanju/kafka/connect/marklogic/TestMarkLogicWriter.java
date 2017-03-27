@@ -1,4 +1,4 @@
-package org.sanju.kafka.connect.marklogic.sink;
+package org.sanju.kafka.connect.marklogic;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -6,9 +6,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.beanutils.BeanMap;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.junit.Before;
 import org.junit.Test;
+import org.sanju.kafka.connect.marklogic.sink.MarkLogicSinkConfig;
 
 /**
  * 
@@ -33,8 +35,11 @@ public class TestMarkLogicWriter {
 	public void shouldWrite(){
 		
 		List<SinkRecord> documents = new ArrayList<SinkRecord>();
-		documents.add(new SinkRecord("topic", 1, null, null, null, new Document("John", 1), 0));
-		documents.add(new SinkRecord("topic", 1, null, null, null, new Document("Doe", 2), 0));
+		final Account account = new Account("A1");
+		final Client client = new Client("C1", account);
+		final QuoteRequest quoteRequest = new QuoteRequest("Q1", "APPL", 100, client);
+		
+		documents.add(new SinkRecord("topic", 1, null, null, null, new BeanMap(quoteRequest), 0));
 		
 		markLogicWriter.write(documents);
 	}

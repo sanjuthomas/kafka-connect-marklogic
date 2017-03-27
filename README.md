@@ -32,7 +32,7 @@ value.converter.schemas.enable=false
 
 ## How to produce some message?
 
-To create some test message use the MessageFactory class in the test source. Update the environment details like host, port and topic in the MessageFactory as per your environment.
+To create some test message use the TestProducer class in the test source. Update the environment details like host, port and topic in the TestProducer as per your environment.
 
 ## Looking for source connector?
 

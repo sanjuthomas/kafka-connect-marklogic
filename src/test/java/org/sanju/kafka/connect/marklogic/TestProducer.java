@@ -1,7 +1,8 @@
-package org.sanju.kafka.connect.marklogic.sink;
+package org.sanju.kafka.connect.marklogic;
 
 import java.util.Properties;
 import java.util.UUID;
+import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.Producer;
@@ -15,13 +16,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author Sanju Thomas
  *
  */
-public class MessageFactory {
+public class TestProducer {
 	
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 
 	public static void main(String[] args) {
 
-		String topicName = "documents";
+		String topicName = "trades";
 		Properties props = new Properties();
 		props.put("bootstrap.servers", "localhost:9092");
 		props.put("acks", "all");
@@ -35,8 +36,12 @@ public class MessageFactory {
 				"org.apache.kafka.connect.json.JsonSerializer");
 		Producer<String, JsonNode> producer = new KafkaProducer<String, JsonNode>(props);
 		for (int i = 0; i < 10000; i++){
-			JsonNode jsonNode = MAPPER.valueToTree(new Document(UUID.randomUUID().toString(), i));
-			producer.send(new ProducerRecord<String, JsonNode>(topicName,jsonNode));
+			final Account account = new Account("A" + i);
+			final Client client = new Client("C" + i, account);
+			final QuoteRequest quoteRequest = new QuoteRequest("Q" + i, UUID.randomUUID().toString(), 
+					ThreadLocalRandom.current().nextInt(1, 100 + 1), client);
+			JsonNode jsonNode = MAPPER.valueToTree(quoteRequest);
+			producer.send(new ProducerRecord<String, JsonNode>(topicName, jsonNode));
 		}
 		producer.flush();
 		producer.close();

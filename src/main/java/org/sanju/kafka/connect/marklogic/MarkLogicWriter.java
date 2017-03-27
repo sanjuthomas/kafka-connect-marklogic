@@ -1,11 +1,10 @@
-package org.sanju.kafka.connect.marklogic.sink;
+package org.sanju.kafka.connect.marklogic;
 
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
@@ -21,6 +20,7 @@ import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.kafka.connect.sink.SinkRecord;
+import org.sanju.kafka.connect.marklogic.sink.MarkLogicSinkConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -57,7 +57,7 @@ public class MarkLogicWriter implements Writer{
 	public void write(final List<SinkRecord> records) {
 	
 		records.parallelStream().forEach(record -> {
-			final HttpPut post = createPostRequest(record.value());
+			final HttpPut post = createPutRequest(record.value(), record.topic());
 			if(null != post){
 				process(post);
 			}
@@ -68,12 +68,14 @@ public class MarkLogicWriter implements Writer{
 	 * @return
 	 * @throws MalformedURLException 
 	 */
-	private URIBuilder getURIBuilder() throws MalformedURLException {
+	private URIBuilder getURIBuilder(final String urlString, final String collection) throws MalformedURLException {
 
+		logger.debug("received url {}, and collection {}", urlString, collection);
 		final URIBuilder builder = new URIBuilder();
 		final URL url = new URL(connectionUrl);
 		builder.setScheme(url.getProtocol()).setHost(url.getAuthority()).setPath(url.getPath());
-		builder.addParameter("uri", UUID.randomUUID().toString());
+		builder.addParameter("uri", urlString);
+		builder.addParameter("collection", collection);
 		return builder;
 	}
 
@@ -82,10 +84,11 @@ public class MarkLogicWriter implements Writer{
 	 * @param payload
 	 * @return
 	 */
-	private HttpPut createPostRequest(final Object value) {
+	private HttpPut createPutRequest(final Object value, final String collection) {
 	
 		try {
-			final URIBuilder uriBuilder = getURIBuilder();
+			logger.debug("received value {}, and collection {}", value, collection);
+			final URIBuilder uriBuilder = getURIBuilder(((Map<?,?>)value).get("url").toString(), collection);
 			final String jsonString = MAPPER.writeValueAsString(value);
 			HttpPut request = new HttpPut(uriBuilder.build());
 			final StringEntity params = new StringEntity(jsonString, "UTF-8");
