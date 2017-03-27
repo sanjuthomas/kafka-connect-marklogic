@@ -25,7 +25,7 @@ Open a shell prompt and move to kafka_home and execute the following.
 
 bin/connect-standalone.sh config/connect-standalone.properties config/marklogic-sink.properties
 
-Since we this example is not using any schema, please set the following properties to false i the kafka_home/conf/connect-standalone.properties file.
+Since we this example is not using any schema, please set the following properties to false in the kafka_home/conf/connect-standalone.properties file.
 
 key.converter.schemas.enable=false
 value.converter.schemas.enable=false
