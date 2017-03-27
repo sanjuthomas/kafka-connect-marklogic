@@ -1,6 +1,5 @@
 package org.sanju.kafka.connect.marklogic.sink;
 
-import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -112,7 +111,7 @@ public class MarkLogicWriter implements Writer{
 		localContext.setCredentialsProvider(credentialsProvider);
 		try {
 			return httpClient.execute(request, localContext);
-		} catch (IOException e) {
+		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
 			throw new RuntimeException(e);
 		}
