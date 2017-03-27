@@ -5,7 +5,7 @@ Kafka Connect MarkLogic is a sink only connector (move message from Kafka to Mar
 ![Kafka Connect MarkLogic](kafka-connect-ml.png)
 
 ## What is apache kafka?
-Apache Kafka is an open-source stream processing platform developed by the Apache Software Foundation written in Scala and Java. The project aims to provide a unified, high-throughput, low-latency platform for handling real-time data feeds. For more details, refer to [kafka home page](https://kafka.apache.org/).
+Apache Kafka is an open-source stream processing platform developed by the Apache Software Foundation written in Scala and Java. The project aims to provide a unified, high-throughput, low-latency platform for handling real-time data feeds. For more details, please refer to [kafka home page](https://kafka.apache.org/).
 
 ## Implementation details 
 
