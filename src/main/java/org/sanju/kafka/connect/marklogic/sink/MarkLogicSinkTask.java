@@ -33,7 +33,7 @@ public class MarkLogicSinkTask extends SinkTask {
 		final int partitionSize = records.size() / batchSize;
 		final List<List<SinkRecord>> recordsPartitions = Lists.partition(new ArrayList<>(records), 
 				partitionSize == 0 ? 1 : partitionSize);
-		recordsPartitions.forEach(partitions ->{
+		recordsPartitions.parallelStream().forEach(partitions ->{
 			writer.write(partitions);
 		});
 	}

@@ -35,7 +35,7 @@ public class TestProducer {
 		props.put("value.serializer",
 				"org.apache.kafka.connect.json.JsonSerializer");
 		Producer<String, JsonNode> producer = new KafkaProducer<String, JsonNode>(props);
-		for (int i = 0; i < 10000; i++){
+		for (int i = 0; i < 100000; i++){
 			final Account account = new Account("A" + i);
 			final Client client = new Client("C" + i, account);
 			final QuoteRequest quoteRequest = new QuoteRequest("Q" + i, UUID.randomUUID().toString(), 
