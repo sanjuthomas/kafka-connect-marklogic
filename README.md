@@ -9,7 +9,9 @@ Apache Kafka is an open-source stream processing platform developed by the Apach
 
 ## Implementation details 
 
-To send data to MarkLogic, this connector make use of MarkLogic REST api. By default the /v1/documents endpoint at port 8000 is used. You may change that in the marklogic-sink.properties file. You may use a REST extension instead of the out of the box document API to do any transformation on the way in.
+To send data to MarkLogic, this connector make use of MarkLogic REST api. By default the /v1/documents endpoint at port 8000 is used. You may change that in the marklogic-sink.properties file. You may use your own REST/Service extension instead of the out of the box document API to do any transformation on the way in.
+
+To listen to multiple topic, please add the topic name in the marklogic-sink.properties file. Current implementation will take the topic name and use it as the MarkLogic document collection name.
 
 ## How to deploy the connector in Kafka?
 
