@@ -14,7 +14,7 @@ This is a maven project. Do a mvn clean install, and it will produce an artifact
 
 Copy the src/test/resources/marklogic-sink.properties file into kafka_home/conf folder. Update the content of the property file as per your environment.
 
-Alternatively, you may choose to keep the jar files in a directory of your choice and export that directory into class path before starting the connector.
+Alternatively, you may keep the jar files in a directory of your choice and export that directory into class path before starting the connector.
 
 ## How to start connector in standalone mode?
 
