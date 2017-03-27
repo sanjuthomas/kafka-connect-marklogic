@@ -32,7 +32,7 @@ Since this example is not using any schema, please set the following properties 
 key.converter.schemas.enable=false
 value.converter.schemas.enable=false
 
-## How to produce some message?
+## How to produce some messages?
 
 To produce some test messages, use the TestProducer class in the test source. Update the environment details like host, port, and topic in the TestProducer as per your environment.
 
