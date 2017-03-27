@@ -4,6 +4,9 @@ Kafka Connect MarkLogic is a sink only connector (move message from Kafka to Mar
 
 ![Kafka Connect MarkLogic](kafka-connect-ml.png)
 
+## What is apache kafka?
+Apache Kafka is an open-source stream processing platform developed by the Apache Software Foundation written in Scala and Java. The project aims to provide a unified, high-throughput, low-latency platform for handling real-time data feeds. For more details, refer to [kafka home page].(https://kafka.apache.org/) 
+
 ## Implementation details 
 
 To send data to MarkLogic, this connector make use of MarkLogic REST api. By default the /v1/documents endpoint at port 8000 is used. You may change that in the marklogic-sink.properties file. You may use a REST extension instead of the out of the box document API to do any transformation on the way in.
