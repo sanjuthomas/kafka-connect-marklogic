@@ -52,7 +52,7 @@ public class MarkLogicWriter implements Writer{
 	}
 	
 	/**
-	 * change the implementation to DMSDK when ML 9 is available, until then writing one by one
+	 * change the implementation to batch using DMSDK when ML 9 is available, until then writing one by one
 	 */
 	@Override
 	public void write(List<SinkRecord> records) {
