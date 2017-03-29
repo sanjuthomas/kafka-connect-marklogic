@@ -17,7 +17,7 @@ submitting an issue to our [GitHub Issue Tracker][issue tracker]. Even better yo
 with a fix for the issue you filed.
 
 ## <a name="feature"></a> Want a Feature?
-You can request a new feature by submitting an issue to our [GitHub Issue Tracker][issue tracker].  If you would like to implement a new feature then first create a new issue and discuss it with project maintainer.
+You can request a new feature by submitting an issue to our  If you would like to implement a new feature then first create a new issue and discuss it with project maintainer.
 
 ## <a name="submit"></a> Submission Guidelines
 
