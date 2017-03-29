@@ -36,10 +36,6 @@ value.converter.schemas.enable=false
 
 To produce some test messages, use the TestProducer class in the test source. Update the environment details like host, port, and topic in the TestProducer as per your environment.
 
-## Looking for source connector?
-
-Please create an issue. I shall write that for you.
-
 ## How to contact the author?
 
 Create an issue in the GitHub.
