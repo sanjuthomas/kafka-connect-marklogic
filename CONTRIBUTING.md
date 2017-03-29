@@ -103,7 +103,7 @@ $ git push origin my-feature-branch
 
 #### Submit the pull request
 
-Go to https://github.com/username/kafka-connect-marklogic and select your feature branch. Click
+Go to https://github.com/sanjuthomas/kafka-connect-marklogic and select your feature branch. Click
 the 'Pull Request' button and fill out the form.
 
 Pull requests are usually reviewed within a few days. If you get comments
