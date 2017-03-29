@@ -9,7 +9,7 @@ kafka-connect-marklogic welcomes new contributors. This document will guide you 
  
 ## <a name="question"></a> Got a Question or Problem?
 
-If you have questions about how to use marklogic-module-deployer, please create an issue in the GitHub
+If you have questions about how to use kafka-connect-marklogic, please create an issue in the GitHub
 
 ## <a name="issue"></a> Found an Issue?
 If you find a bug in the source code or a mistake in the documentation, you can help us by 
