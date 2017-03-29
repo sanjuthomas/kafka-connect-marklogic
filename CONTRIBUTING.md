@@ -13,11 +13,11 @@ If you have questions about how to use kafka-connect-marklogic, please create an
 
 ## <a name="issue"></a> Found an Issue?
 If you find a bug in the source code or a mistake in the documentation, you can help us by 
-submitting an issue to our [GitHub Issue Tracker][issue tracker]. Even better you can submit a Pull Request
+submitting an issue to our [GitHub Issue Tracker](https://github.com/sanjuthomas/kafka-connect-marklogic/issues). Even better you can submit a Pull Request
 with a fix for the issue you filed.
 
 ## <a name="feature"></a> Want a Feature?
-You can request a new feature by submitting an issue to our  [GitHub Issue Tracker][issue tracker].  If you would like to implement a new feature then first create a new issue and discuss it with project maintainer.
+You can request a new feature by submitting an issue to our [GitHub Issue Tracker](https://github.com/sanjuthomas/kafka-connect-marklogic/issues).  If you would like to implement a new feature then first create a new issue and discuss it with project maintainer.
 
 ## <a name="submit"></a> Submission Guidelines
 
