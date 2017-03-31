@@ -42,12 +42,20 @@ public class MarkLogicWriter implements Writer{
 	private final String connectionUrl;
 	private final String user;
 	private final String password;
+	private final CloseableHttpClient httpClient;
+	private final HttpClientContext localContext = HttpClientContext.create();
 	
 	public MarkLogicWriter(final Map<String, String> config){
 		
 		connectionUrl = config.get(MarkLogicSinkConfig.CONNECTION_URL);
 		user = config.get(MarkLogicSinkConfig.CONNECTION_USER);
 		password = config.get(MarkLogicSinkConfig.CONNECTION_PASSWORD);
+		
+		httpClient = HttpClients.createDefault();
+        final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+        credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(user, password));
+        localContext.setCredentialsProvider(credentialsProvider);
+    
 	}
 	
 	/**
@@ -107,11 +115,6 @@ public class MarkLogicWriter implements Writer{
 	
 	private HttpResponse process(final HttpRequestBase request) {
 
-		final CloseableHttpClient httpClient = HttpClients.createDefault();
-		final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-		credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(user, password));
-		final HttpClientContext localContext = HttpClientContext.create();
-		localContext.setCredentialsProvider(credentialsProvider);
 		try {
 			return httpClient.execute(request, localContext);
 		} catch (Exception e) {
