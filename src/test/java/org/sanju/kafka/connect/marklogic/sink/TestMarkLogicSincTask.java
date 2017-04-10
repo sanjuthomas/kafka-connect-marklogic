@@ -1,6 +1,7 @@
 package org.sanju.kafka.connect.marklogic.sink;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +44,7 @@ public class TestMarkLogicSincTask {
 		List<SinkRecord> documents = new ArrayList<SinkRecord>();
 		final Account account = new Account("A1");
 		final Client client = new Client("C1", account);
-		final QuoteRequest quoteRequest = new QuoteRequest("Q1", "APPL", 100, client);
+		final QuoteRequest quoteRequest = new QuoteRequest("Q1", "APPL", 100, client, new Date());
 	
 		documents.add(new SinkRecord("topic", 1, null, null, null, new BeanMap(quoteRequest), 0));
 		markLogicSinkTask.put(documents);

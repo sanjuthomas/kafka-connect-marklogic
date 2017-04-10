@@ -1,7 +1,7 @@
 package org.sanju.kafka.connect.marklogic;
 
+import java.util.Date;
 import java.util.Properties;
-import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 
 import org.apache.kafka.clients.producer.KafkaProducer;
@@ -21,6 +21,8 @@ public class TestProducer {
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 
 	public static void main(String[] args) {
+	  
+	    String [] symbols = new String [] {"ABB", "AAV", "AAPL", "BABA", "BAK", "BANC", "DAL", "DBD", "DBL", "RACE", "RATE", "RCG", "YELP", "YUME", "ZPIN"};
 
 		String topicName = "trades";
 		Properties props = new Properties();
@@ -30,17 +32,15 @@ public class TestProducer {
 		props.put("batch.size", 16384);
 		props.put("linger.ms", 1);
 		props.put("buffer.memory", 33554432);
-		props.put("key.serializer",
-				"org.apache.kafka.common.serialization.StringSerializer");
-		props.put("value.serializer",
-				"org.apache.kafka.connect.json.JsonSerializer");
+		props.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+		props.put("value.serializer", "org.apache.kafka.connect.json.JsonSerializer");
 		Producer<String, JsonNode> producer = new KafkaProducer<String, JsonNode>(props);
-		for (int i = 0; i < 100000; i++){
+		for (int i = 0; i < 1000000; i++){
 			final Account account = new Account("A" + i);
 			final Client client = new Client("C" + i, account);
-			final QuoteRequest quoteRequest = new QuoteRequest("Q" + i, UUID.randomUUID().toString(), 
-					ThreadLocalRandom.current().nextInt(1, 100 + 1), client);
-			JsonNode jsonNode = MAPPER.valueToTree(quoteRequest);
+			final QuoteRequest quoteRequest = new QuoteRequest("Q" + i, symbols[ThreadLocalRandom.current().nextInt(0, 14)], 
+					ThreadLocalRandom.current().nextInt(1, 100 + 1), client, new Date());
+			final JsonNode jsonNode = MAPPER.valueToTree(quoteRequest);
 			producer.send(new ProducerRecord<String, JsonNode>(topicName, jsonNode));
 		}
 		producer.flush();
