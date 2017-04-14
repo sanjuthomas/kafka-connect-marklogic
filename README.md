@@ -2,10 +2,11 @@
 
 Kafka Connect MarkLogic is a sink only connector (pull messages from Kafka to MarkLogic). Consider using Kafka MarkLogic Sync Connector for the following usecases.
 
-1. Near Realtime ingestion requirements.
-2. Regulate the traffic toward MarkLogic.
-3. A Kafka echosystem exist.
-4. Replay messages using an offset.
+1. Near realtime ingestion requirements.
+2. Regulate the traffic towards MarkLogic.
+3. Requirement to maintain the order of the messages. 
+4. A Kafka echosystem exist.
+5. Replay messages using an offset.
 
 ![Kafka Connect MarkLogic](kafka-connect-ml.png)
 
