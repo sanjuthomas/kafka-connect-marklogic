@@ -19,6 +19,7 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.kafka.connect.errors.ConnectException;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.sanju.kafka.connect.marklogic.sink.MarkLogicSinkConfig;
 import org.slf4j.Logger;
@@ -119,7 +120,7 @@ public class MarkLogicWriter implements Writer{
 			return httpClient.execute(request, localContext);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			throw new RuntimeException(e);
+			throw new ConnectException(e);
 		}
 	}
 
