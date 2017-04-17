@@ -32,7 +32,8 @@ public class TestMarkLogicSincTask {
 		conf.put(MarkLogicSinkConfig.CONNECTION_USER, "admin");
 		conf.put(MarkLogicSinkConfig.CONNECTION_PASSWORD, "admin");
 		conf.put(MarkLogicSinkConfig.BATCH_SIZE, "100");
-		
+	    conf.put(MarkLogicSinkConfig.RETRY_BACKOFF_MS, "100");
+	    conf.put("topics", "trades");
 		markLogicSinkTask = new MarkLogicSinkTask();
 		markLogicSinkTask.start(conf);
 	}
@@ -46,7 +47,7 @@ public class TestMarkLogicSincTask {
 		final Client client = new Client("C1", account);
 		final QuoteRequest quoteRequest = new QuoteRequest("Q1", "APPL", 100, client, new Date());
 	
-		documents.add(new SinkRecord("topic", 1, null, null, null, new BeanMap(quoteRequest), 0));
+		documents.add(new SinkRecord("trades", 1, null, null, null, new BeanMap(quoteRequest), 0));
 		markLogicSinkTask.put(documents);
 	}
 }

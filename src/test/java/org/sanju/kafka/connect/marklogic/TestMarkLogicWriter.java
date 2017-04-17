@@ -21,7 +21,7 @@ import org.sanju.kafka.connect.marklogic.sink.MarkLogicSinkConfig;
 public class TestMarkLogicWriter {
 	
 	private final Map<String, String> conf = new HashMap<>();
-	private MarkLogicWriter markLogicWriter;
+	private BufferedMarkLogicWriter markLogicWriter;
 
 	@Before
 	public void setup() throws MalformedURLException{
@@ -29,7 +29,8 @@ public class TestMarkLogicWriter {
 		conf.put(MarkLogicSinkConfig.CONNECTION_URL, "http://localhost:8000/v1/documents");
 		conf.put(MarkLogicSinkConfig.CONNECTION_USER, "admin");
 		conf.put(MarkLogicSinkConfig.CONNECTION_PASSWORD, "admin");
-		markLogicWriter = new MarkLogicWriter(conf);
+		conf.put(MarkLogicSinkConfig.BATCH_SIZE, "100");
+		markLogicWriter = new BufferedMarkLogicWriter(conf);
 	}
 	
 	@Test
@@ -41,8 +42,8 @@ public class TestMarkLogicWriter {
 		final QuoteRequest quoteRequest = new QuoteRequest("Q1", "APPL", 100, client, new Date());
 		
 		documents.add(new SinkRecord("topic", 1, null, null, null, new BeanMap(quoteRequest), 0));
-		
 		markLogicWriter.write(documents);
+		
 	}
 }
 
