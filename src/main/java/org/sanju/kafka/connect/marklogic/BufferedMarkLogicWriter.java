@@ -136,14 +136,14 @@ public class BufferedMarkLogicWriter implements Writer{
         
         void buffer(SinkRecord r){
 	        add(r);
-	        if(batchSize <= super.size()){
+	        if(batchSize <= size()){
 	            flush();
 	        }
 	    }
 
         //change the flush to use DMSDK and batch when ML 9 is out
         void flush() {
-            this.forEach(record -> {
+            forEach(record -> {
                 final HttpPut post = createPutRequest(record.value(), record.topic());
                 process(post);
             });
