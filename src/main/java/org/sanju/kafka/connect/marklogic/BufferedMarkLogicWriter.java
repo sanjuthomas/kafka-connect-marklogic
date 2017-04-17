@@ -134,7 +134,7 @@ public class BufferedMarkLogicWriter implements Writer{
 	    
         private static final long serialVersionUID = 1L;
         
-        void buffer(SinkRecord r){
+        void buffer(final SinkRecord r){
 	        add(r);
 	        if(batchSize <= size()){
 	            flush();
@@ -152,7 +152,7 @@ public class BufferedMarkLogicWriter implements Writer{
 	}
 
     @Override
-    public void write(Collection<SinkRecord> recrods) {
+    public void write(final Collection<SinkRecord> recrods) {
        recrods.forEach(r -> bufferedRecords.buffer(r));
        bufferedRecords.flush();
     }
