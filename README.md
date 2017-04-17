@@ -31,12 +31,16 @@ Alternatively, you may keep the jar files in another directory and export that d
 
 Open a shell prompt, move to kafka_home and execute the following.
 
+```
 bin/connect-standalone.sh config/connect-standalone.properties config/marklogic-sink.properties
+```
 
 Since this example is not using any schema, please set the following properties to false in the kafka_home/conf/connect-standalone.properties file.
 
+```
 key.converter.schemas.enable=false
 value.converter.schemas.enable=false
+```
 
 ## How to produce some messages?
 
