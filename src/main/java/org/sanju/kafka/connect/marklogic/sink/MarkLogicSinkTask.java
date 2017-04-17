@@ -63,6 +63,7 @@ public class MarkLogicSinkTask extends SinkTask {
         logger.info("stop called!");
     }
 
+    @Override
     public void flush(final Map<TopicPartition, OffsetAndMetadata> currentOffsets) {
 
         currentOffsets.forEach((k, v) -> logger.info("Flush - Topic {}, Partition {}, Offset {}, Metadata {}",
