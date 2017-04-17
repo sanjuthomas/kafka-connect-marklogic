@@ -24,13 +24,24 @@ public class MarkLogicSinkConfig extends AbstractConfig {
 	private static final String CONNECTION_PASSWORD_DOC = "ml connection password";
 
 	public static final String BATCH_SIZE = "ml.batch.size";
+	private static final int BATCH_SIZE_DEFAULT = 1000;
 	private static final String BATCH_SIZE_DOC = "ml batch size";
+	
+	public static final String MAX_RETRIES = "ml.max.retries";
+	private static final int MAX_RETRIES_DEFAULT = 100;
+	private static final String MAX_RETRIES_DOC =  "The maximum number of times to retry on errors/exception before failing the task.";
+	
+	public static final String RETRY_BACKOFF_MS = "retry.backoff.ms";
+    private static final int RETRY_BACKOFF_MS_DEFAULT = 10000;
+	private static final String RETRY_BACKOFF_MS_DOC = "The time in milliseconds to wait following an error/exception before a retry attempt is made.";
 	
 	public static ConfigDef CONFIG_DEF = new ConfigDef()
 			.define(CONNECTION_URL, Type.STRING, Importance.HIGH, CONNECTION_URL_DOC)
 			.define(CONNECTION_USER, Type.STRING, Importance.HIGH, CONNECTION_USER_DOC)
 			.define(CONNECTION_PASSWORD, Type.STRING, Importance.LOW, CONNECTION_PASSWORD_DOC)
-			.define(BATCH_SIZE, Type.STRING, Importance.LOW, BATCH_SIZE_DOC);
+			.define(BATCH_SIZE, Type.INT, BATCH_SIZE_DEFAULT, Importance.MEDIUM, BATCH_SIZE_DOC)
+			.define(MAX_RETRIES, Type.INT, MAX_RETRIES_DEFAULT, Importance.MEDIUM, MAX_RETRIES_DOC)
+			.define(RETRY_BACKOFF_MS, Type.INT, RETRY_BACKOFF_MS_DEFAULT, Importance.MEDIUM, RETRY_BACKOFF_MS_DOC);
 
 	public MarkLogicSinkConfig(final Map<?, ?> originals) {
 		

@@ -23,42 +23,50 @@ import com.google.common.collect.Lists;
  */
 public class MarkLogicSinkTask extends SinkTask {
 
-	private static final Logger logger = LoggerFactory.getLogger(MarkLogicSinkTask.class);
-	private int batchSize;
-	private Writer writer;
+    private static final Logger logger = LoggerFactory.getLogger(MarkLogicSinkTask.class);
+    private int batchSize;
+    private Writer writer;
 
-	@Override
-	public void put(final Collection<SinkRecord> records) {
+    @Override
+    public void put(final Collection<SinkRecord> records) {
 
-		final int partitionSize = records.size() / batchSize;
-		final List<List<SinkRecord>> recordsPartitions = Lists.partition(new ArrayList<>(records), 
-				partitionSize == 0 ? 1 : partitionSize);
-		recordsPartitions.parallelStream().forEach(partitions ->{
-			writer.write(partitions);
-		});
-	}
+        if (records.isEmpty()) {
+            return;
+        }
+        
+        final SinkRecord first = records.iterator().next();
+        final int recordsCount = records.size();
+        logger.info("Received {} records. kafka coordinates from record: Topic - {}, Partition - {}, Offset - {}",
+                recordsCount, first.topic(), first.kafkaPartition(), first.kafkaOffset());
 
-	@Override
-	public void start(final Map<String, String> config) {
-		writer = new MarkLogicWriter(config);
-		batchSize = Integer.valueOf(config.get(MarkLogicSinkConfig.BATCH_SIZE));
-	}
+        final int partitionSize = records.size() / batchSize;
+        final List<List<SinkRecord>> recordsPartitions = Lists.partition(
+                new ArrayList<>(records), partitionSize == 0 ? 1 : partitionSize);
+        recordsPartitions.parallelStream().forEach(partitions -> {
+            writer.write(partitions);
+        });
+    }
 
-	@Override
-	public void stop() {
+    @Override
+    public void start(final Map<String, String> config) {
+        writer = new MarkLogicWriter(config);
+        batchSize = Integer.valueOf(config.get(MarkLogicSinkConfig.BATCH_SIZE));
+    }
 
-		logger.info("stop called");
-	}
-	
-	public void flush(final Map<TopicPartition, OffsetAndMetadata> currentOffsets) {
-		
-		logger.info("flush called");
-	}
+    @Override
+    public void stop() {
 
-	public String version() {
+        logger.info("stop called");
+    }
 
-		return MarkLogicSinkConnector.MARKLOGIC_CONNECTOR_VERSION;
-	}
+    public void flush(final Map<TopicPartition, OffsetAndMetadata> currentOffsets) {
 
-	
+        currentOffsets.forEach((k,v) -> logger.info("Flush - Topic {}, Partition {}, Offset {}, Metadata {}", k.topic(), k.partition(), v.offset(), v.metadata()));
+    }
+
+    public String version() {
+
+        return MarkLogicSinkConnector.MARKLOGIC_CONNECTOR_VERSION;
+    }
+
 }
