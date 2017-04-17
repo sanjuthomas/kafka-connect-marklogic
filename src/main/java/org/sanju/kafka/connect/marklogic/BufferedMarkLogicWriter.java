@@ -3,7 +3,8 @@ package org.sanju.kafka.connect.marklogic;
 import java.net.MalformedURLException;
 import java.net.URISyntaxException;
 import java.net.URL;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Map;
 
 import org.apache.http.HttpResponse;
@@ -34,9 +35,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
  * @author Sanju Thomas
  *
  */
-public class MarkLogicWriter implements Writer{
+public class BufferedMarkLogicWriter implements Writer{
 	
-	private static final Logger logger = LoggerFactory.getLogger(MarkLogicWriter.class);
+	private static final Logger logger = LoggerFactory.getLogger(BufferedMarkLogicWriter.class);
 	
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 	private final ContentType DEFAULT_CONTENT_TYPE = ContentType.APPLICATION_JSON;
@@ -48,11 +49,15 @@ public class MarkLogicWriter implements Writer{
 	private final HttpClientContext localContext;
 	private final RequestConfig requestConfig;
 	
-	public MarkLogicWriter(final Map<String, String> config){
-		
+	private BufferedRecords bufferedRecords = new BufferedRecords();
+	private final int batchSize;
+	
+	public BufferedMarkLogicWriter(final Map<String, String> config){
+	    
 		connectionUrl = config.get(MarkLogicSinkConfig.CONNECTION_URL);
 		user = config.get(MarkLogicSinkConfig.CONNECTION_USER);
 		password = config.get(MarkLogicSinkConfig.CONNECTION_PASSWORD);
+		batchSize = Integer.valueOf(config.get(MarkLogicSinkConfig.BATCH_SIZE));
 		
 		requestConfig = RequestConfig.custom().setConnectionRequestTimeout(5 * 1000).build();
 		localContext = HttpClientContext.create();
@@ -62,18 +67,6 @@ public class MarkLogicWriter implements Writer{
         localContext.setCredentialsProvider(credentialsProvider);
         localContext.setRequestConfig(requestConfig);
     
-	}
-	
-	/**
-	 * change the implementation to batch using DMSDK when ML 9 is available, until then writing one by one
-	 */
-	@Override
-	public void write(final List<SinkRecord> records) {
-	
-		records.forEach(record -> {
-			final HttpPut post = createPutRequest(record.value(), record.topic());
-			process(post);
-		});
 	}
 	
 	/**
@@ -131,5 +124,37 @@ public class MarkLogicWriter implements Writer{
 			throw new RetriableException(e);
 		}
 	}
+	
+	/**
+	 * 
+	 * Buffer the Records until the batch size reached.
+	 *
+	 */
+	class BufferedRecords extends ArrayList<SinkRecord>{
+	    
+        private static final long serialVersionUID = 1L;
+        
+        void buffer(SinkRecord r){
+	        add(r);
+	        if(batchSize <= super.size()){
+	            flush();
+	        }
+	    }
+
+        //change the flush to use DMSDK and batch when ML 9 is out
+        void flush() {
+            this.forEach(record -> {
+                final HttpPut post = createPutRequest(record.value(), record.topic());
+                process(post);
+            });
+            clear();
+        }
+	}
+
+    @Override
+    public void write(Collection<SinkRecord> recrods) {
+       recrods.forEach(r -> bufferedRecords.buffer(r));
+       bufferedRecords.flush();
+    }
 
 }

@@ -6,6 +6,8 @@ import org.apache.kafka.common.config.AbstractConfig;
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.common.config.ConfigDef.Importance;
 import org.apache.kafka.common.config.ConfigDef.Type;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * 
@@ -13,6 +15,8 @@ import org.apache.kafka.common.config.ConfigDef.Type;
  *
  */
 public class MarkLogicSinkConfig extends AbstractConfig {
+    
+    private static final Logger logger = LoggerFactory.getLogger(MarkLogicSinkConfig.class);
 	
 	public static final String CONNECTION_URL = "ml.connection.url";
 	private static final String CONNECTION_URL_DOC = "ml application server connection URL";
@@ -46,6 +50,7 @@ public class MarkLogicSinkConfig extends AbstractConfig {
 	public MarkLogicSinkConfig(final Map<?, ?> originals) {
 		
 		super(CONFIG_DEF, originals, false);
+		logger.info("Original Configs {}", originals);
 	}
 
 }

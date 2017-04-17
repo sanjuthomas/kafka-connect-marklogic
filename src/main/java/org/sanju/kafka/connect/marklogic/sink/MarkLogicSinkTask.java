@@ -1,8 +1,6 @@
 package org.sanju.kafka.connect.marklogic.sink;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.kafka.clients.consumer.OffsetAndMetadata;
@@ -10,12 +8,10 @@ import org.apache.kafka.common.TopicPartition;
 import org.apache.kafka.connect.errors.RetriableException;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.apache.kafka.connect.sink.SinkTask;
-import org.sanju.kafka.connect.marklogic.MarkLogicWriter;
+import org.sanju.kafka.connect.marklogic.BufferedMarkLogicWriter;
 import org.sanju.kafka.connect.marklogic.Writer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.Lists;
 
 /**
  * 
@@ -25,52 +21,52 @@ import com.google.common.collect.Lists;
 public class MarkLogicSinkTask extends SinkTask {
 
     private static final Logger logger = LoggerFactory.getLogger(MarkLogicSinkTask.class);
-    private int batchSize;
-    private Writer writer;
     private int timeout;
+    private Writer writer;
+    private Map<String, String> config;
 
     @Override
     public void put(final Collection<SinkRecord> records) {
 
         if (records.isEmpty()) {
+            logger.debug("Empty record collection to process");
             return;
         }
-        
+
         final SinkRecord first = records.iterator().next();
         final int recordsCount = records.size();
         logger.info("Received {} records. kafka coordinates from record: Topic - {}, Partition - {}, Offset - {}",
-                recordsCount, first.topic(), first.kafkaPartition(), first.kafkaOffset());
+                        recordsCount, first.topic(), first.kafkaPartition(), first.kafkaOffset());
 
-        final int partitionSize = records.size() / batchSize;
-        final List<List<SinkRecord>> recordsPartitions = Lists.partition(
-                new ArrayList<>(records), partitionSize == 0 ? 1 : partitionSize);
-        recordsPartitions.forEach(partitions -> {
-            try {
-                writer.write(partitions);
-            } catch (RetriableException e) {
-                logger.info("Setting the task timeout to {} upon RetriableException", timeout);
-                context.timeout(timeout);
-                throw e;
-            }
-        });
+        try {
+            writer.write(records);
+        } catch (RetriableException e) {
+            logger.warn("Setting the task timeout to {} upon RetriableException", timeout);
+            this.writer = new BufferedMarkLogicWriter(config);
+            context.timeout(timeout);
+            throw e;
+        }
     }
 
     @Override
     public void start(final Map<String, String> config) {
+
+        logger.info("start called!");
+        this.config = config;
         this.timeout = Integer.valueOf(config.get(MarkLogicSinkConfig.RETRY_BACKOFF_MS));
-        writer = new MarkLogicWriter(config);
-        batchSize = Integer.valueOf(config.get(MarkLogicSinkConfig.BATCH_SIZE));
+        this.writer = new BufferedMarkLogicWriter(config);
     }
 
     @Override
     public void stop() {
 
-        logger.info("stop called");
+        logger.info("stop called!");
     }
 
     public void flush(final Map<TopicPartition, OffsetAndMetadata> currentOffsets) {
 
-        currentOffsets.forEach((k,v) -> logger.info("Flush - Topic {}, Partition {}, Offset {}, Metadata {}", k.topic(), k.partition(), v.offset(), v.metadata()));
+        currentOffsets.forEach((k, v) -> logger.info("Flush - Topic {}, Partition {}, Offset {}, Metadata {}",
+                k.topic(), k.partition(), v.offset(), v.metadata()));
     }
 
     public String version() {

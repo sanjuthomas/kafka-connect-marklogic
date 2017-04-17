@@ -1,6 +1,6 @@
 package org.sanju.kafka.connect.marklogic;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.apache.kafka.connect.sink.SinkRecord;
 
@@ -11,5 +11,5 @@ import org.apache.kafka.connect.sink.SinkRecord;
  */
 public interface Writer {
 	
-	void write(final List<SinkRecord> records);
+	void write(final Collection<SinkRecord> recrods);
 }
