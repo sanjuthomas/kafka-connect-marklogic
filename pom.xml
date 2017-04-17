@@ -9,7 +9,7 @@
 
 	<name>kafka-connect-marklogic</name>
 	<url>http://saju.org</url>
-  <description>A Kafka Connect JDBC connector for copying data between MarkLogic and Kafka.</description>
+  <description>A Kafka connector for copying data between MarkLogic and Kafka.</description>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
