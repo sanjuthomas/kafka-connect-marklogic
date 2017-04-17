@@ -32,7 +32,7 @@ public class TestMarkLogicSincTask {
 		conf.put(MarkLogicSinkConfig.CONNECTION_USER, "admin");
 		conf.put(MarkLogicSinkConfig.CONNECTION_PASSWORD, "admin");
 		conf.put(MarkLogicSinkConfig.BATCH_SIZE, "100");
-		
+	    conf.put(MarkLogicSinkConfig.RETRY_BACKOFF_MS, "100");
 		markLogicSinkTask = new MarkLogicSinkTask();
 		markLogicSinkTask.start(conf);
 	}

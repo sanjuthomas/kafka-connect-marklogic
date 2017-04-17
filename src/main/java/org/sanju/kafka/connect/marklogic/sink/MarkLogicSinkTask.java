@@ -7,6 +7,7 @@ import java.util.Map;
 
 import org.apache.kafka.clients.consumer.OffsetAndMetadata;
 import org.apache.kafka.common.TopicPartition;
+import org.apache.kafka.connect.errors.RetriableException;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.apache.kafka.connect.sink.SinkTask;
 import org.sanju.kafka.connect.marklogic.MarkLogicWriter;
@@ -26,6 +27,7 @@ public class MarkLogicSinkTask extends SinkTask {
     private static final Logger logger = LoggerFactory.getLogger(MarkLogicSinkTask.class);
     private int batchSize;
     private Writer writer;
+    private int timeout;
 
     @Override
     public void put(final Collection<SinkRecord> records) {
@@ -42,13 +44,20 @@ public class MarkLogicSinkTask extends SinkTask {
         final int partitionSize = records.size() / batchSize;
         final List<List<SinkRecord>> recordsPartitions = Lists.partition(
                 new ArrayList<>(records), partitionSize == 0 ? 1 : partitionSize);
-        recordsPartitions.parallelStream().forEach(partitions -> {
-            writer.write(partitions);
+        recordsPartitions.forEach(partitions -> {
+            try {
+                writer.write(partitions);
+            } catch (RetriableException e) {
+                logger.info("Setting the task timeout to {} upon RetriableException", timeout);
+                context.timeout(timeout);
+                throw e;
+            }
         });
     }
 
     @Override
     public void start(final Map<String, String> config) {
+        this.timeout = Integer.valueOf(config.get(MarkLogicSinkConfig.RETRY_BACKOFF_MS));
         writer = new MarkLogicWriter(config);
         batchSize = Integer.valueOf(config.get(MarkLogicSinkConfig.BATCH_SIZE));
     }

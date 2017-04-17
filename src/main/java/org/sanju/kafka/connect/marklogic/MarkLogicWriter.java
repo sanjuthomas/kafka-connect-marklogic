@@ -10,6 +10,7 @@ import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.config.RequestConfig;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.HttpClientContext;
@@ -18,8 +19,8 @@ import org.apache.http.entity.ContentType;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-import org.apache.kafka.connect.errors.ConnectException;
+import org.apache.http.impl.client.HttpClientBuilder;
+import org.apache.kafka.connect.errors.RetriableException;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.sanju.kafka.connect.marklogic.sink.MarkLogicSinkConfig;
 import org.slf4j.Logger;
@@ -44,7 +45,8 @@ public class MarkLogicWriter implements Writer{
 	private final String user;
 	private final String password;
 	private final CloseableHttpClient httpClient;
-	private final HttpClientContext localContext = HttpClientContext.create();
+	private final HttpClientContext localContext;
+	private final RequestConfig requestConfig;
 	
 	public MarkLogicWriter(final Map<String, String> config){
 		
@@ -52,10 +54,13 @@ public class MarkLogicWriter implements Writer{
 		user = config.get(MarkLogicSinkConfig.CONNECTION_USER);
 		password = config.get(MarkLogicSinkConfig.CONNECTION_PASSWORD);
 		
-		httpClient = HttpClients.createDefault();
+		requestConfig = RequestConfig.custom().setConnectionRequestTimeout(5 * 1000).build();
+		localContext = HttpClientContext.create();
+		httpClient = HttpClientBuilder.create().build();
         final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
         credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(user, password));
         localContext.setCredentialsProvider(credentialsProvider);
+        localContext.setRequestConfig(requestConfig);
     
 	}
 	
@@ -65,11 +70,9 @@ public class MarkLogicWriter implements Writer{
 	@Override
 	public void write(final List<SinkRecord> records) {
 	
-		records.parallelStream().forEach(record -> {
+		records.forEach(record -> {
 			final HttpPut post = createPutRequest(record.value(), record.topic());
-			if(null != post){
-				process(post);
-			}
+			process(post);
 		});
 	}
 	
@@ -106,12 +109,17 @@ public class MarkLogicWriter implements Writer{
 			return request;
 		} catch (URISyntaxException e) {
 			logger.error(e.getMessage(), e);
+			throw new RetriableException(e);
 		} catch (JsonProcessingException e) {
 			logger.error(e.getMessage(), e);
+			throw new RetriableException(e);
 		} catch (MalformedURLException e) {
 			logger.error(e.getMessage(), e);
+			throw new RetriableException(e);
+		} catch(Exception e){
+		    logger.error(e.getMessage(), e);
+		    throw new RetriableException(e);
 		}
-		return null;
 	}
 	
 	private HttpResponse process(final HttpRequestBase request) {
@@ -120,7 +128,7 @@ public class MarkLogicWriter implements Writer{
 			return httpClient.execute(request, localContext);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			throw new ConnectException(e);
+			throw new RetriableException(e);
 		}
 	}
 
