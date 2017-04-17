@@ -38,9 +38,8 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class BufferedMarkLogicWriter implements Writer{
 	
 	private static final Logger logger = LoggerFactory.getLogger(BufferedMarkLogicWriter.class);
-	
 	private static final ObjectMapper MAPPER = new ObjectMapper();
-	private final ContentType DEFAULT_CONTENT_TYPE = ContentType.APPLICATION_JSON;
+	private static final ContentType DEFAULT_CONTENT_TYPE = ContentType.APPLICATION_JSON;
 
 	private final String connectionUrl;
 	private final String user;
@@ -48,9 +47,8 @@ public class BufferedMarkLogicWriter implements Writer{
 	private final CloseableHttpClient httpClient;
 	private final HttpClientContext localContext;
 	private final RequestConfig requestConfig;
-	
-	private BufferedRecords bufferedRecords = new BufferedRecords();
 	private final int batchSize;
+	private final BufferedRecords bufferedRecords = new BufferedRecords();
 	
 	public BufferedMarkLogicWriter(final Map<String, String> config){
 	    
