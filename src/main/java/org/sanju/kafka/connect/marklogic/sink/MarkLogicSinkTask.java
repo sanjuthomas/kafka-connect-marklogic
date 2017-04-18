@@ -40,7 +40,7 @@ public class MarkLogicSinkTask extends SinkTask {
 
         try {
             writer.write(records);
-        } catch (RetriableException e) {
+        } catch (final RetriableException e) {
             logger.warn("Setting the task timeout to {} ms upon RetriableException", timeout);
             this.writer = new BufferedMarkLogicWriter(config);
             context.timeout(timeout);
