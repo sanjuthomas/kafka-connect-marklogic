@@ -21,7 +21,13 @@ To listen to multiple topics, please add the topic name in the marklogic-sink.pr
 
 ## How to deploy the connector in Kafka?
 
-This is a maven project. Do a mvn clean install, and it will produce an artifact "marklogic-kafka-connector-0.0.1-SNAPSHOT.jar". Copy that jar and it's dependencies (commons-logging-1.2.jar, httpclient-4.5.2.jar, httpcore-4.4.4.jar) in kafka_home/lib.
+This is a maven project. Do a mvn clean install, and it will produce an artifact marklogic-kafka-connector-0.0.1-SNAPSHOT.jar. Copy following jar files into kafka_home/lib. 
+```
+1. marklogic-kafka-connector-0.0.1-SNAPSHOT.jar
+2. commons-logging-1.2.jar [dependency]
+3. httpclient-4.5.2.jar [dependency]
+4. httpcore-4.4.4.jar [dependency]
+```
 
 Copy the [marklogic-sink.properties](https://github.com/sanjuthomas/kafka-connect-marklogic/blob/master/config/marklogic-sink.properties) file into kafka_home/conf folder. Update the content of the property file as per your environment.
 
