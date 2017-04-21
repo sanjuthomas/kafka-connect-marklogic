@@ -59,7 +59,7 @@ bin/connect-standalone.sh config/marklogic-connect-standalone.properties config/
 
 A couple of example message producers are available [here](https://github.com/sanjuthomas/marklogic-kafka-sample-client)
 
-## How to contact the author?
+## Contact
 
 Create an issue in the GitHub.
 
