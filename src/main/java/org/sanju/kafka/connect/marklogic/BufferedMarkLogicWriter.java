@@ -6,6 +6,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
+import java.util.UUID;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
@@ -91,9 +92,10 @@ public class BufferedMarkLogicWriter implements Writer{
 	
 		try {
 			logger.debug("received value {}, and collection {}", value, collection);
-			final URIBuilder uriBuilder = getURIBuilder(((Map<?,?>)value).get("url").toString(), collection);
+			final Object url = ((Map<?,?>)value).get("url");
+			final URIBuilder uriBuilder = getURIBuilder(null == url ? UUID.randomUUID().toString() : url.toString(), collection);
 			final String jsonString = MAPPER.writeValueAsString(value);
-			HttpPut request = new HttpPut(uriBuilder.build());
+			final HttpPut request = new HttpPut(uriBuilder.build());
 			final StringEntity params = new StringEntity(jsonString, "UTF-8");
 			params.setContentType(DEFAULT_CONTENT_TYPE.toString());
 			request.setEntity(params);

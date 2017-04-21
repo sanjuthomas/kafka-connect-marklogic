@@ -24,12 +24,6 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>org.apache.kafka</groupId>
-			<artifactId>connect-json</artifactId>
-			<version>0.10.2.0</version>
-		</dependency>
-
-		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
 			<version>4.5.2</version>
@@ -40,7 +34,7 @@
 			<artifactId>slf4j-api</artifactId>
 			<version>1.7.21</version>
 		</dependency>
-
+        
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
