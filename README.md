@@ -25,7 +25,7 @@ To listen to multiple topics, please add the topic name in the marklogic-sink.pr
 ## Data Mapping
 
 MarkLogic is a schemaless document store/NoSQL database. Since we are working with plain JSON data, we don't need a schema to serialize and deserialize the messages. So please copy ```kafka_home/config/connect-standalone.properties``` to create ```kafka_home/config/marklogic-connect-standalone.properties``` file.
-Open ```kafka_home/config/config/marklogic-connect-standalone.properties``` and set the following properties to false.
+Open ```kafka_home/config/marklogic-connect-standalone.properties``` and set the following properties to false.
 
 ```
 key.converter.schemas.enable=false
