@@ -62,6 +62,13 @@ A couple of example message producers are available [here](https://github.com/sa
 ## How to contact the author?
 
 Create an issue in the GitHub.
+
+## Contribute
+
+Please refer to [CONTRIBUTING.md](https://github.com/sanjuthomas/kafka-connect-marklogic/blob/master/CONTRIBUTING.md)
+
+## License
+The project is licensed under the MIT license.
  
 
 
