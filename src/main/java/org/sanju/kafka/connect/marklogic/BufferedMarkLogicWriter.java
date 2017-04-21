@@ -41,7 +41,8 @@ public class BufferedMarkLogicWriter implements Writer{
 	private static final Logger logger = LoggerFactory.getLogger(BufferedMarkLogicWriter.class);
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 	private static final ContentType DEFAULT_CONTENT_TYPE = ContentType.APPLICATION_JSON;
-
+	private static final String URL = "url";
+	
 	private final String connectionUrl;
 	private final String user;
 	private final String password;
@@ -92,7 +93,7 @@ public class BufferedMarkLogicWriter implements Writer{
 	
 		try {
 			logger.debug("received value {}, and collection {}", value, collection);
-			final Object url = ((Map<?,?>)value).get("url");
+			final Object url = ((Map<?,?>)value).get(URL);
 			final URIBuilder uriBuilder = getURIBuilder(null == url ? UUID.randomUUID().toString() : url.toString(), collection);
 			final String jsonString = MAPPER.writeValueAsString(value);
 			final HttpPut request = new HttpPut(uriBuilder.build());
@@ -156,5 +157,5 @@ public class BufferedMarkLogicWriter implements Writer{
        recrods.forEach(r -> bufferedRecords.buffer(r));
        bufferedRecords.flush();
     }
-
+    
 }

@@ -66,7 +66,7 @@ public class MarkLogicSinkTask extends SinkTask {
     @Override
     public void flush(final Map<TopicPartition, OffsetAndMetadata> currentOffsets) {
 
-        currentOffsets.forEach((k, v) -> logger.info("Flush - Topic {}, Partition {}, Offset {}, Metadata {}",
+        currentOffsets.forEach((k, v) -> logger.debug("Flush - Topic {}, Partition {}, Offset {}, Metadata {}",
                 k.topic(), k.partition(), v.offset(), v.metadata()));
     }
 
