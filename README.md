@@ -1,6 +1,6 @@
 # Overview
 
-Kafka Connect MarkLogic is a sink only connector (pull messages from Kafka to MarkLogic). Consider using Kafka MarkLogic Sync Connector for the following usecases.
+Kafka Connect MarkLogic is a sink only connector to pull messages from Kafka to store in MarkLogic as JSON documents. Consider using Kafka MarkLogic Sync Connector for the following usecases.
 
 1. Near realtime ingestion requirements.
 2. Regulate the traffic towards MarkLogic.
@@ -10,7 +10,10 @@ Kafka Connect MarkLogic is a sink only connector (pull messages from Kafka to Ma
 
 ![Kafka Connect MarkLogic](kafka-connect-ml.png)
 
-## What is apache kafka?
+## What is MarkLogic?
+The MarkLogic is a multi-model schemaless NoSQL database to store, manage, and search JSON, XML, and RDF triples. For more details, please refer MarkLogic official (website.)[marklogic.com]
+
+## What is Apache Kafka?
 Apache Kafka is an open-source stream processing platform developed by the Apache Software Foundation written in Scala and Java. The project aims to provide a unified, high-throughput, low-latency platform for handling real-time data feeds. For more details, please refer to [kafka home page](https://kafka.apache.org/).
 
 ## Implementation details 
@@ -19,9 +22,20 @@ To send data to MarkLogic, this connector make use of MarkLogic REST API. By def
 
 To listen to multiple topics, please add the topic name in the marklogic-sink.properties file. Current implementation will take the topic name and use it as the MarkLogic document collection name.
 
+## Data Mapping
+
+MarkLogic is a schemaless document store/NoSQL database. Since we are working with plain JSON data, we don't need a schema to serialize and deserialize the messages. So please copy ```kafka_home/conf/connect-standalone.properties``` to create ```kafka_home/conf/config/marklogic-connect-standalone.properties``` file.
+Open kafka_home/conf/config/marklogic-connect-standalone.properties and set the following properties to false.
+
+```
+key.converter.schemas.enable=false
+value.converter.schemas.enable=false
+```
+
 ## How to deploy the connector in Kafka?
 
 This is a maven project. Do a mvn clean install, and it will produce an artifact marklogic-kafka-connector-0.0.1-SNAPSHOT.jar. Copy following jar files into kafka_home/lib. 
+
 ```
 1. marklogic-kafka-connector-0.0.1-SNAPSHOT.jar
 2. commons-logging-1.2.jar [dependency]
@@ -38,19 +52,12 @@ Alternatively, you may keep the jar files in another directory and export that d
 Open a shell prompt, move to kafka_home and execute the following.
 
 ```
-bin/connect-standalone.sh config/connect-standalone.properties config/marklogic-sink.properties
-```
-
-Since this example is not using any schema, please set the following properties to false in the kafka_home/conf/connect-standalone.properties file.
-
-```
-key.converter.schemas.enable=false
-value.converter.schemas.enable=false
+bin/connect-standalone.sh config/marklogic-connect-standalone.properties config/marklogic-sink.properties
 ```
 
 ## How to produce some messages?
 
-To produce some test messages, use the TestProducer class in the test source. Update the environment details like host, port, and topic in the TestProducer as per your environment.
+A couple of example message producers are available [here](https://github.com/sanjuthomas/marklogic-kafka-sample-client)
 
 ## How to contact the author?
 
