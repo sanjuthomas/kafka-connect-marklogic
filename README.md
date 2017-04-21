@@ -11,7 +11,7 @@ Kafka Connect MarkLogic is a sink only connector to pull messages from Kafka to 
 ![Kafka Connect MarkLogic](kafka-connect-ml.png)
 
 ## What is MarkLogic?
-The MarkLogic is a multi-model schemaless NoSQL database to store, manage, and search JSON, XML, and RDF triples. For more details, please refer MarkLogic official (website)[marklogic.com].
+The MarkLogic is a multi-model schemaless NoSQL database to store, manage, and search JSON, XML, and RDF triples. For more details, please refer MarkLogic official [website](marklogic.com).
 
 ## What is Apache Kafka?
 Apache Kafka is an open-source stream processing platform developed by the Apache Software Foundation written in Scala and Java. The project aims to provide a unified, high-throughput, low-latency platform for handling real-time data feeds. For more details, please refer to [kafka home page](https://kafka.apache.org/).
