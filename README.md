@@ -44,6 +44,8 @@ key.converter.schemas.enable=false
 value.converter.schemas.enable=false
 ```
 
+In distributed mode, if you run more than one worker per host, the ```rest.port``` settings must have different values for each instance. By default REST interface is available at 8083.
+
 ## How to deploy the connector in Kafka?
 
 This is maven project. To create an [uber](https://maven.apache.org/plugins/maven-shade-plugin/index.html) jar, execute the following maven goals.
