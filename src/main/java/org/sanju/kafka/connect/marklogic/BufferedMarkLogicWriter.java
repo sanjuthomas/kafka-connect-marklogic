@@ -5,6 +5,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.UUID;
 
@@ -93,9 +94,10 @@ public class BufferedMarkLogicWriter implements Writer{
 	
 		try {
 			logger.debug("received value {}, and collection {}", value, collection);
-			final Object url = ((Map<?,?>)value).get(URL);
+			final Map<?, ?> valueMap = new LinkedHashMap<>((Map<?,?>)value);
+			final Object url = valueMap.remove(URL);
 			final URIBuilder uriBuilder = getURIBuilder(null == url ? UUID.randomUUID().toString() : url.toString(), collection);
-			final String jsonString = MAPPER.writeValueAsString(value);
+			final String jsonString = MAPPER.writeValueAsString(valueMap);
 			final HttpPut request = new HttpPut(uriBuilder.build());
 			final StringEntity params = new StringEntity(jsonString, "UTF-8");
 			params.setContentType(DEFAULT_CONTENT_TYPE.toString());
