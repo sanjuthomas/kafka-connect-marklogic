@@ -10,6 +10,10 @@ Kafka Connect MarkLogic is a sink only connector to pull messages from Kafka to 
 
 ![Kafka Connect MarkLogic](kafka-connect-ml.png)
 
+## Prerequisites
+
+[Apache ZooKeeper](https://zookeeper.apache.org) and [Apache Kafka](https://kafka.apache.org) installed and running in your machine. Please refer to respective sites to download and start ZooKeeper and Kafka. 
+
 ## What is MarkLogic?
 The MarkLogic is a multi-model schemaless NoSQL database to store, manage, and search JSON, XML, and RDF triples. For more details, please refer MarkLogic official [website](marklogic.com).
 
