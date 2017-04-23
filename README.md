@@ -34,14 +34,11 @@ value.converter.schemas.enable=false
 
 ## How to deploy the connector in Kafka?
 
-This is a maven project. Do a mvn clean install, and it will produce an artifact marklogic-kafka-connector-0.0.1-SNAPSHOT.jar. Copy following jar files into kafka_home/lib. 
+This is maven project. To create an [uber](https://maven.apache.org/plugins/maven-shade-plugin/index.html) jar, execute the following maven goals.
 
-```
-1. marklogic-kafka-connector-0.0.1-SNAPSHOT.jar
-2. commons-logging-1.2.jar [dependency]
-3. httpclient-4.5.2.jar [dependency]
-4. httpcore-4.4.4.jar [dependency]
-```
+Execute ```mvn clean compile package shade:shade install```
+
+Copy the artifact ```kafka-connect-marklogic-0.0.1-SNAPSHOT.jar``` to kakfa_home/lib folder.
 
 Copy the [marklogic-sink.properties](https://github.com/sanjuthomas/kafka-connect-marklogic/blob/master/config/marklogic-sink.properties) file into kafka_home/config folder. Update the content of the property file as per your environment.
 
@@ -57,7 +54,7 @@ bin/connect-standalone.sh config/marklogic-connect-standalone.properties config/
 
 ## How to produce some messages?
 
-A couple of example message producers are available [here](https://github.com/sanjuthomas/marklogic-kafka-sample-client)
+A couple of example message producers are available [here](https://github.com/sanjuthomas/marklogic-kafka-sample-client).
 
 ## Contact
 
