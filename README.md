@@ -36,7 +36,7 @@ value.converter.schemas.enable=false
 
 This is maven project. To create an [uber](https://maven.apache.org/plugins/maven-shade-plugin/index.html) jar, execute the following maven goals.
 
-Execute ```mvn clean compile package shade:shade install```
+```mvn clean compile package shade:shade install```
 
 Copy the artifact ```kafka-connect-marklogic-0.0.1-SNAPSHOT.jar``` to kakfa_home/lib folder.
 
