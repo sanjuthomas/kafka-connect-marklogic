@@ -58,12 +58,20 @@ Copy the [marklogic-sink.properties](https://github.com/sanjuthomas/kafka-connec
 
 Alternatively, you may keep the ```kafka-connect-marklogic-0.0.1-SNAPSHOT.jar``` in another directory and export that directory into Kafka class path before starting the connector.
 
-## How to start connector in standalone mode?
+## How to start connector in stand-alone mode?
 
 Open a shell prompt, move to kafka_home and execute the following.
 
 ```
 bin/connect-standalone.sh config/marklogic-connect-standalone.properties config/marklogic-sink.properties
+```
+
+## How to start connector in distribute mode?
+
+Open a shell prompt, move to kafka_home and execute the following.
+
+```
+bin/connect-distributed.sh config/marklogic-connect-distributed.properties config/marklogic-sink.properties
 ```
 
 ## How to produce some messages?
