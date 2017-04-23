@@ -40,7 +40,7 @@ This is maven project. To create an [uber](https://maven.apache.org/plugins/mave
 
 Copy the artifact ```kafka-connect-marklogic-0.0.1-SNAPSHOT.jar``` to kakfa_home/lib folder.
 
-Copy the [marklogic-sink.properties](https://github.com/sanjuthomas/kafka-connect-marklogic/blob/master/config/marklogic-sink.properties) file into kafka_home/config folder. Update the content of the property file as per your environment.
+Copy the [marklogic-sink.properties](https://github.com/sanjuthomas/kafka-connect-marklogic/blob/master/config/marklogic-sink.properties) file into kafka_home/config folder. Update the content of the property file according to your environment.
 
 Alternatively, you may keep the jar files in another directory and export that directory into class path before starting the connector.
 
