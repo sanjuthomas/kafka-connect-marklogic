@@ -42,7 +42,7 @@ Copy the artifact ```kafka-connect-marklogic-0.0.1-SNAPSHOT.jar``` to kakfa_home
 
 Copy the [marklogic-sink.properties](https://github.com/sanjuthomas/kafka-connect-marklogic/blob/master/config/marklogic-sink.properties) file into kafka_home/config folder. Update the content of the property file according to your environment.
 
-Alternatively, you may keep the jar files in another directory and export that directory into class path before starting the connector.
+Alternatively, you may keep the ```kafka-connect-marklogic-0.0.1-SNAPSHOT.jar``` in another directory and export that directory into Kafka class path before starting the connector.
 
 ## How to start connector in standalone mode?
 
