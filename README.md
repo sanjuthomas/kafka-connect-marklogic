@@ -8,7 +8,7 @@ Kafka Connect MarkLogic is a sink only connector to pull messages from Kafka to 
 4. A Kafka echosystem exist.
 5. Replay messages using an offset.
 
-![Kafka Connect MarkLogic](kafka-connect-ml.png)
+![Kafka Connect MarkLogic](KafkaConnectMarkLogic.png)
 
 ## Prerequisites
 
