@@ -38,7 +38,7 @@ public class MarkLogicAsyncWriter extends MarkLogicWriter {
                 rps.add(new RequestProcessor(r));
             });
             final List<Future<HttpResponse>> results = fjPool.invokeAll(rps);
-            results.parallelStream().forEach(r -> {
+            results.forEach(r -> {
                 try {
                     r.get();
                 } catch (Exception e) {
