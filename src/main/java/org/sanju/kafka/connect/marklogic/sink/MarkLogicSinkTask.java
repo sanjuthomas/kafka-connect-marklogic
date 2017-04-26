@@ -62,7 +62,7 @@ public class MarkLogicSinkTask extends SinkTask {
     private void initWriter(final Map<String, String> config){
         
         logger.info("initWriter called!");
-        String writerClazz = config.get(MarkLogicSinkConfig.WRITER_IMPL);
+        final String writerClazz = config.get(MarkLogicSinkConfig.WRITER_IMPL);
         logger.info("MarkLogic writer class {}", writerClazz);
         if(null == writerClazz || writerClazz.trim().isEmpty()){
             this.writer = new MarkLogicDefaultWriter(config);
