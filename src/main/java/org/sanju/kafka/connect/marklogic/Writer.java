@@ -11,5 +11,8 @@ import org.apache.kafka.connect.sink.SinkRecord;
  */
 public interface Writer {
 	
+    /**
+     * @param recrods
+     */
 	void write(final Collection<SinkRecord> recrods);
 }
