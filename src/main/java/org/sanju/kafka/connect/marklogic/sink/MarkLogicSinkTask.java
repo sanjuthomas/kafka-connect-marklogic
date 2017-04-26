@@ -1,14 +1,16 @@
 package org.sanju.kafka.connect.marklogic.sink;
 
+import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.Map;
 
 import org.apache.kafka.clients.consumer.OffsetAndMetadata;
 import org.apache.kafka.common.TopicPartition;
+import org.apache.kafka.connect.errors.ConnectException;
 import org.apache.kafka.connect.errors.RetriableException;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.apache.kafka.connect.sink.SinkTask;
-import org.sanju.kafka.connect.marklogic.BufferedMarkLogicWriter;
+import org.sanju.kafka.connect.marklogic.MarkLogicDefaultWriter;
 import org.sanju.kafka.connect.marklogic.Writer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,7 +44,7 @@ public class MarkLogicSinkTask extends SinkTask {
             writer.write(records);
         } catch (final RetriableException e) {
             logger.warn("Setting the task timeout to {} ms upon RetriableException", timeout);
-            this.writer = new BufferedMarkLogicWriter(config);
+            initWriter(config);
             context.timeout(timeout);
             throw e;
         }
@@ -54,7 +56,23 @@ public class MarkLogicSinkTask extends SinkTask {
         logger.info("start called!");
         this.config = config;
         this.timeout = Integer.valueOf(config.get(MarkLogicSinkConfig.RETRY_BACKOFF_MS));
-        this.writer = new BufferedMarkLogicWriter(config);
+        initWriter(config);
+    }
+    
+    private void initWriter(final Map<String, String> config){
+        
+        String writerClazz = config.get(MarkLogicSinkConfig.WRITER_IMPL);
+        logger.info("MarkLogic writer class {}", config);
+        if(null == writerClazz || writerClazz.trim().isEmpty()){
+            this.writer = new MarkLogicDefaultWriter(config);
+        }else{
+            try {
+                final Constructor<?> c = Class.forName(writerClazz).getConstructor(Map.class);
+                this.writer = (Writer) c.newInstance(config);
+            } catch (Exception e) {
+                throw new ConnectException(e);
+            }
+        }
     }
 
     @Override

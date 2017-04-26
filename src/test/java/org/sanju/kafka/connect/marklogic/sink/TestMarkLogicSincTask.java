@@ -2,17 +2,16 @@ package org.sanju.kafka.connect.marklogic.sink;
 
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.apache.commons.beanutils.BeanMap;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.junit.Before;
 import org.junit.Test;
-import org.sanju.kafka.connect.marklogic.Account;
-import org.sanju.kafka.connect.marklogic.Client;
-import org.sanju.kafka.connect.marklogic.QuoteRequest;
+import org.sanju.kafka.connect.marklogic.AbstractTest;
+import org.sanju.kafka.connect.marklogic.beans.Account;
+import org.sanju.kafka.connect.marklogic.beans.Client;
+import org.sanju.kafka.connect.marklogic.beans.QuoteRequest;
 
 
 /**
@@ -20,22 +19,15 @@ import org.sanju.kafka.connect.marklogic.QuoteRequest;
  * @author Sanju Thomas
  *
  */
-public class TestMarkLogicSincTask {
+public class TestMarkLogicSincTask extends AbstractTest{
 	
 	private MarkLogicSinkTask markLogicSinkTask;
-	private final Map<String, String> conf = new HashMap<>();
 	
 	@Before
 	public void setup(){
-		
-		conf.put(MarkLogicSinkConfig.CONNECTION_URL, "http://localhost:8000/v1/documents");
-		conf.put(MarkLogicSinkConfig.CONNECTION_USER, "admin");
-		conf.put(MarkLogicSinkConfig.CONNECTION_PASSWORD, "admin");
-		conf.put(MarkLogicSinkConfig.BATCH_SIZE, "100");
-	    conf.put(MarkLogicSinkConfig.RETRY_BACKOFF_MS, "100");
-	    conf.put("topics", "trades");
+	    super.setup();
 		markLogicSinkTask = new MarkLogicSinkTask();
-		markLogicSinkTask.start(conf);
+		markLogicSinkTask.start(super.conf);
 	}
 	
 	
