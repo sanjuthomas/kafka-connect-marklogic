@@ -34,7 +34,7 @@ public class MarkLogicAsyncWriter extends MarkLogicWriter {
         final ExecutorService fjPool = new ForkJoinPool(8);
         final List<Callable<HttpResponse>> rps = new ArrayList<>();
         try {
-            rs.parallelStream().forEach(r -> {
+            rs.forEach(r -> {
                 rps.add(new RequestProcessor(r));
             });
             final List<Future<HttpResponse>> results = fjPool.invokeAll(rps);
