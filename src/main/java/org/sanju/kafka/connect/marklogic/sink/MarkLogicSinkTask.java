@@ -26,6 +26,8 @@ public class MarkLogicSinkTask extends SinkTask {
     private int timeout;
     private Writer writer;
     private Map<String, String> config;
+    private int maxRetires;
+    private int remainingRetries;
 
     @Override
     public void put(final Collection<SinkRecord> records) {
@@ -43,11 +45,17 @@ public class MarkLogicSinkTask extends SinkTask {
         try {
             writer.write(records);
         } catch (final RetriableException e) {
-            logger.warn("Setting the task timeout to {} ms upon RetriableException", timeout);
-            initWriter(config);
-            context.timeout(timeout);
-            throw e;
+            if (remainingRetries == 0) {
+                throw new ConnectException("Retires exhausted, ending the task. Manual restart is required.");
+            }else{
+                logger.warn("Setting the task timeout to {} ms upon RetriableException", timeout);
+                initWriter(config);
+                context.timeout(timeout);
+                remainingRetries--;
+                throw e;
+            }
         }
+        this.remainingRetries = maxRetires;
     }
 
     @Override
@@ -56,6 +64,8 @@ public class MarkLogicSinkTask extends SinkTask {
         logger.info("start called!");
         this.config = config;
         this.timeout = Integer.valueOf(config.get(MarkLogicSinkConfig.RETRY_BACKOFF_MS));
+        this.maxRetires = Integer.valueOf(config.get(MarkLogicSinkConfig.MAX_RETRIES));
+        this.remainingRetries = maxRetires;
         initWriter(config);
     }
     
@@ -71,6 +81,7 @@ public class MarkLogicSinkTask extends SinkTask {
                 final Constructor<?> c = Class.forName(writerClazz).getConstructor(Map.class);
                 this.writer = (Writer) c.newInstance(config);
             } catch (Exception e) {
+                logger.error("ml.writer.impl value is invalid {}", writerClazz);
                 throw new ConnectException(e);
             }
         }

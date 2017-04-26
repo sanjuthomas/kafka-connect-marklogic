@@ -39,6 +39,7 @@ public abstract class AbstractTest {
         conf.put(MarkLogicSinkConfig.BATCH_SIZE, "100");
         conf.put(MarkLogicSinkConfig.WRITER_IMPL, MarkLogicDefaultWriter.class.getCanonicalName());
         conf.put(MarkLogicSinkConfig.RETRY_BACKOFF_MS, "100");
+        conf.put(MarkLogicSinkConfig.MAX_RETRIES, "10");
         conf.put("topics", "trades");
     }
     

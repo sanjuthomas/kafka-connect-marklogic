@@ -36,10 +36,10 @@ public class MarkLogicSinkConfig extends AbstractConfig {
 	private static final String WRITER_IMPL_DEFAULT = MarkLogicDefaultWriter.class.getCanonicalName();
 	private static final String WRITER_IMPL_DOC = "ml writer implementation class name";
 	
-	public static final String MAX_RETRIES = "ml.max.retries";
-	private static final int MAX_RETRIES_DEFAULT = 100;
-	private static final String MAX_RETRIES_DOC =  "The maximum number of times to retry on errors/exception before failing the task.";
-	
+	public static final String MAX_RETRIES = "max.retries";
+    private static final int MAX_RETRIES_DEFAULT = 100;
+    private static final String MAX_RETRIES_DOC =  "The maximum number of times to retry on errors/exception before failing the task.";
+		
 	public static final String RETRY_BACKOFF_MS = "retry.backoff.ms";
     private static final int RETRY_BACKOFF_MS_DEFAULT = 10000;
 	private static final String RETRY_BACKOFF_MS_DOC = "The time in milliseconds to wait following an error/exception before a retry attempt is made.";
