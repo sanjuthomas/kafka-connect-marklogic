@@ -45,7 +45,7 @@ public class MarkLogicSinkTask extends SinkTask {
         try {
             writer.write(records);
         } catch (final RetriableException e) {
-            if (remainingRetries == 0) {
+            if (maxRetires > 0 && remainingRetries == 0) {
                 throw new ConnectException("Retires exhausted, ending the task. Manual restart is required.");
             }else{
                 logger.warn("Setting the task timeout to {} ms upon RetriableException", timeout);
