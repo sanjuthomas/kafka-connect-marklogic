@@ -100,17 +100,14 @@ public abstract class MarkLogicWriter implements Writer{
             return request;
         } catch (URISyntaxException e) {
             logger.error(e.getMessage(), e);
-            throw new RetriableException(e);
+            throw new RuntimeException(e);
         } catch (JsonProcessingException e) {
             logger.error(e.getMessage(), e);
-            throw new RetriableException(e);
+            throw new RuntimeException(e);
         } catch (MalformedURLException e) {
             logger.error(e.getMessage(), e);
-            throw new RetriableException(e);
-        } catch(Exception e){
-            logger.error(e.getMessage(), e);
-            throw new RetriableException(e);
-        }
+            throw new RuntimeException(e);
+        } 
     }
     
     protected HttpResponse process(final HttpRequestBase request) {
