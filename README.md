@@ -12,7 +12,7 @@ Kafka Connect MarkLogic is a sink only connector to pull messages from Kafka to 
 
 ![Kafka Connect MarkLogic](kafka-model-arch.png)
 
-This project is about the component marked in green. Refer [here](confluent.io/product/connectors) to see the available list of source connectors.
+This project is about the component marked in green. Refer [here](http://confluent.io/product/connectors) to see the available list of source connectors.
 
 ## Prerequisites
 
