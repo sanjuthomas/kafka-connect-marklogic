@@ -35,7 +35,8 @@ public class MarkLogicAsyncWriter extends MarkLogicWriter {
         final List<Callable<HttpResponse>> rps = new ArrayList<>();
         try {
             rs.forEach(r -> {
-                rps.add(new RequestProcessor(r));
+            	final Callable<HttpResponse> c = () -> process(createPutRequest(r.value(), r.topic()));
+                rps.add(c);
             });
             final List<Future<HttpResponse>> results = fjPool.invokeAll(rps);
             results.forEach(r -> {
@@ -54,17 +55,4 @@ public class MarkLogicAsyncWriter extends MarkLogicWriter {
         }
     }
 
-    class RequestProcessor implements Callable<HttpResponse> {
-
-        private SinkRecord record;
-
-        public RequestProcessor(final SinkRecord record) {
-            this.record = record;
-        }
-
-        @Override
-        public HttpResponse call() {
-            return process(createPutRequest(record.value(), record.topic()));
-        }
-    }
 }
