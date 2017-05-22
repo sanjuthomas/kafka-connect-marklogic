@@ -23,8 +23,8 @@ public class MarkLogicDefaultWriter extends MarkLogicWriter{
     }
 
     @Override
-    public void write(final Collection<SinkRecord> recrods) {
-        recrods.forEach(record -> {
+    public void write(final Collection<SinkRecord> records) {
+        records.forEach(record -> {
             process(createPutRequest(record.value(), record.topic()));
         });
     }

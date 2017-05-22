@@ -98,13 +98,7 @@ public abstract class MarkLogicWriter implements Writer{
             params.setContentType(DEFAULT_CONTENT_TYPE.toString());
             request.setEntity(params);
             return request;
-        } catch (URISyntaxException e) {
-            logger.error(e.getMessage(), e);
-            throw new RuntimeException(e);
-        } catch (JsonProcessingException e) {
-            logger.error(e.getMessage(), e);
-            throw new RuntimeException(e);
-        } catch (MalformedURLException e) {
+        } catch (URISyntaxException | JsonProcessingException | MalformedURLException e) {
             logger.error(e.getMessage(), e);
             throw new RuntimeException(e);
         } 

@@ -14,5 +14,5 @@ public interface Writer {
     /**
      * @param recrods
      */
-	void write(final Collection<SinkRecord> recrods);
+	void write(final Collection<SinkRecord> records);
 }
