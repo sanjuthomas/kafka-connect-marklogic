@@ -9,8 +9,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import kafka.connect.marklogic.MarkLogicAsyncWriter;
-import kafka.connect.marklogic.Writer;
 import kafka.connect.marklogic.beans.Account;
 import kafka.connect.marklogic.beans.Client;
 import kafka.connect.marklogic.beans.QuoteRequest;
@@ -18,6 +16,7 @@ import kafka.connect.marklogic.beans.QuoteRequest;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.kafka.connect.sink.SinkRecord;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -34,6 +33,11 @@ public class TestMarkLogicAsyncWriter extends AbstractTest{
 	public void setup(){
 	    super.setup();
 		writer = new MarkLogicAsyncWriter(super.conf);
+	}
+	
+	@After
+	public void tearDown(){
+	    
 	}
 	
 	@Test
@@ -53,6 +57,7 @@ public class TestMarkLogicAsyncWriter extends AbstractTest{
         response = super.get("/C5/A5/Q5.json");
         qr = MAPPER.readValue(response.getEntity().getContent(), QuoteRequest.class);
         assertEquals("GS", qr.getSymbol());
+        super.delete("/C5/A5/Q5.json");
     }
 }
 

@@ -50,6 +50,7 @@ public class TestMarkLogicDefaultWriter extends AbstractTest{
 		final HttpResponse response = super.get("/C1/A1/Q1.json");
 		final QuoteRequest qr = MAPPER.readValue(response.getEntity().getContent(), QuoteRequest.class);
 		assertEquals("APPL", qr.getSymbol());
+		super.delete("/C1/A1/Q1.json");
 	}
 }
 

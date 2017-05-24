@@ -5,7 +5,6 @@ import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
-import kafka.connect.marklogic.MarkLogicDefaultWriter;
 import kafka.connect.marklogic.sink.MarkLogicSinkConfig;
 
 import org.apache.http.HttpResponse;
@@ -13,6 +12,7 @@ import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.CredentialsProvider;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpRequestBase;
 import org.apache.http.client.protocol.HttpClientContext;
@@ -54,14 +54,31 @@ public abstract class AbstractTest {
         credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("admin", "admin"));
         final HttpClientContext localContext = HttpClientContext.create();
         localContext.setCredentialsProvider(credentialsProvider);
-        return httpClient.execute(create(url), localContext);
+        return httpClient.execute(createGet(url), localContext);
+    }
+    
+    protected HttpResponse delete(String url) throws ClientProtocolException, IOException, URISyntaxException{
+        
+        final CloseableHttpClient httpClient = HttpClients.createDefault();
+        final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
+        credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("admin", "admin"));
+        final HttpClientContext localContext = HttpClientContext.create();
+        localContext.setCredentialsProvider(credentialsProvider);
+        return httpClient.execute(createDelete(url), localContext);
     }
 
-    private HttpRequestBase create(final String uri) throws URISyntaxException {
+    private HttpRequestBase createGet(final String uri) throws URISyntaxException {
 
         final URIBuilder uriBuilder = getURIBuilder();
         uriBuilder.addParameter("uri", uri);
         return new HttpGet(uriBuilder.build());
+    }
+    
+    private HttpRequestBase createDelete(final String uri) throws URISyntaxException {
+
+        final URIBuilder uriBuilder = getURIBuilder();
+        uriBuilder.addParameter("uri", uri);
+        return new HttpDelete(uriBuilder.build());
     }
 
     private URIBuilder getURIBuilder() {
@@ -71,6 +88,5 @@ public abstract class AbstractTest {
                 .setPath("/v1/documents");
         return builder;
     }
-
 
 }
