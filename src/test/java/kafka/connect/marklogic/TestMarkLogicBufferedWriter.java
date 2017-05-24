@@ -54,6 +54,7 @@ public class TestMarkLogicBufferedWriter extends AbstractTest{
         qr = MAPPER.readValue(response.getEntity().getContent(), QuoteRequest.class);
         assertEquals("GS", qr.getSymbol());
         super.delete("/C3/A3/Q3.json");
+        super.delete("/C2/A2/Q2.json");
     }
     
 }
