@@ -1,12 +1,13 @@
-package org.sanju.kafka.connect.marklogic.sink;
+package kafka.connect.marklogic.sink;
 
 import java.util.Map;
+
+import kafka.connect.marklogic.MarkLogicDefaultWriter;
 
 import org.apache.kafka.common.config.AbstractConfig;
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.common.config.ConfigDef.Importance;
 import org.apache.kafka.common.config.ConfigDef.Type;
-import org.sanju.kafka.connect.marklogic.MarkLogicDefaultWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

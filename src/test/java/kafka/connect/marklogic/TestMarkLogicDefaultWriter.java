@@ -1,4 +1,4 @@
-package org.sanju.kafka.connect.marklogic;
+package kafka.connect.marklogic;
 
 import static org.junit.Assert.assertEquals;
 
@@ -9,14 +9,17 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import kafka.connect.marklogic.MarkLogicDefaultWriter;
+import kafka.connect.marklogic.Writer;
+import kafka.connect.marklogic.beans.Account;
+import kafka.connect.marklogic.beans.Client;
+import kafka.connect.marklogic.beans.QuoteRequest;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.junit.Before;
 import org.junit.Test;
-import org.sanju.kafka.connect.marklogic.beans.Account;
-import org.sanju.kafka.connect.marklogic.beans.Client;
-import org.sanju.kafka.connect.marklogic.beans.QuoteRequest;
 
 /**
  * 

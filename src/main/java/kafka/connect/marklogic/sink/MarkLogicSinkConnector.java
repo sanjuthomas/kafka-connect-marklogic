@@ -1,4 +1,4 @@
-package org.sanju.kafka.connect.marklogic.sink;
+package kafka.connect.marklogic.sink;
 
 import java.util.ArrayList;
 import java.util.List;

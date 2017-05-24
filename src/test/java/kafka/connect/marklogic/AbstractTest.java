@@ -1,9 +1,12 @@
-package org.sanju.kafka.connect.marklogic;
+package kafka.connect.marklogic;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
+
+import kafka.connect.marklogic.MarkLogicDefaultWriter;
+import kafka.connect.marklogic.sink.MarkLogicSinkConfig;
 
 import org.apache.http.HttpResponse;
 import org.apache.http.auth.AuthScope;
@@ -17,7 +20,6 @@ import org.apache.http.client.utils.URIBuilder;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.sanju.kafka.connect.marklogic.sink.MarkLogicSinkConfig;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
