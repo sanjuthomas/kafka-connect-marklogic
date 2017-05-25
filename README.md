@@ -56,11 +56,11 @@ This is maven project. To create an [uber](https://maven.apache.org/plugins/mave
 
 ```mvn clean compile package shade:shade install```
 
-Copy the artifact ```kafka-connect-marklogic-0.0.1-SNAPSHOT.jar``` to kakfa_home/lib folder.
+Copy the artifact ```kafka-connect-marklogic-1.0.jar``` to kakfa_home/lib folder.
 
 Copy the [marklogic-sink.properties](https://github.com/sanjuthomas/kafka-connect-marklogic/blob/master/config/marklogic-sink.properties) file into kafka_home/config folder. Update the content of the property file according to your environment.
 
-Alternatively, you may keep the ```kafka-connect-marklogic-0.0.1-SNAPSHOT.jar``` in another directory and export that directory into Kafka class path before starting the connector.
+Alternatively, you may keep the ```kafka-connect-marklogic-1.0.jar``` in another directory and export that directory into Kafka class path before starting the connector.
 
 ## How to start connector in stand-alone mode?
 
