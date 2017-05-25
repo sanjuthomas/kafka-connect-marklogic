@@ -3,12 +3,6 @@ package kafka.connect.marklogic;
 import java.util.Collection;
 
 import java.util.Map;
-
-/**
- * @author Sanju Thomas
- * 
- * 
- */
 import org.apache.kafka.connect.sink.SinkRecord;
 
 /**
