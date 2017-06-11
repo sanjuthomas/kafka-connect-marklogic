@@ -1,13 +1,14 @@
-package org.sanju.kafka.connect.marklogic;
+package kafka.connect.marklogic;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import kafka.connect.marklogic.sink.MarkLogicSinkConfig;
+
 import org.apache.kafka.connect.errors.RetriableException;
 import org.apache.kafka.connect.sink.SinkRecord;
-import org.sanju.kafka.connect.marklogic.sink.MarkLogicSinkConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

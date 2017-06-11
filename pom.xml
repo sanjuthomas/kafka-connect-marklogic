@@ -2,13 +2,13 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.sanju</groupId>
+    <groupId>kafka.connect</groupId>
     <artifactId>kafka-connect-marklogic</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>jar</packaging>
 
     <name>kafka-connect-marklogic</name>
-    <url>http://saju.org</url>
+    <url>http://marklogic.com</url>
     <description>A Kafka connector for copying data between MarkLogic and Kafka.</description>
 
     <properties>
@@ -103,7 +103,13 @@
                                     <include>jersey-core-1.17.jar</include>
                                     <include>jersey-multipart-1.17.jar</include>
                                     <include>marklogic-client-api-4.0.1.jar</include>
-                                    <include>org/sanju/**</include>
+             
+
+                                    <include>httpclient-4.5.2.jar</include>
+                                    <include>commons-logging-1.2.jar</include>
+                                    <include>httpcore-4.4.4.jar</include>
+                                    <include>kafka/connect/**</include>
+
                                 </includes>
                                 <excludes>
                                     <exclude>org/xerial/**</exclude>

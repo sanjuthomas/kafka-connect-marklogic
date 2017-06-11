@@ -1,10 +1,10 @@
-package org.sanju.kafka.connect.marklogic;
+package kafka.connect.marklogic;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.sanju.kafka.connect.marklogic.beans.QuoteRequest;
-import org.sanju.kafka.connect.marklogic.sink.MarkLogicSinkConfig;
+import kafka.connect.marklogic.beans.QuoteRequest;
+import kafka.connect.marklogic.sink.MarkLogicSinkConfig;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marklogic.client.DatabaseClient;
@@ -52,5 +52,9 @@ public abstract class AbstractTest {
         }
         return null;
     }
-
+    
+    public void delete(String url){
+        manager.delete(url);
+    }
+   
 }

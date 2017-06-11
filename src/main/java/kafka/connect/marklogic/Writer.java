@@ -1,4 +1,4 @@
-package org.sanju.kafka.connect.marklogic;
+package kafka.connect.marklogic;
 
 import java.util.Collection;
 
@@ -14,5 +14,5 @@ public interface Writer {
     /**
      * @param recrods
      */
-	void write(final Collection<SinkRecord> recrods);
+	void write(final Collection<SinkRecord> records);
 }

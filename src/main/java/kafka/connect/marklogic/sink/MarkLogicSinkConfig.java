@@ -1,12 +1,13 @@
-package org.sanju.kafka.connect.marklogic.sink;
+package kafka.connect.marklogic.sink;
 
 import java.util.Map;
+
+import kafka.connect.marklogic.MarkLogicBufferedWriter;
 
 import org.apache.kafka.common.config.AbstractConfig;
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.common.config.ConfigDef.Importance;
 import org.apache.kafka.common.config.ConfigDef.Type;
-import org.sanju.kafka.connect.marklogic.MarkLogicWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +37,7 @@ public class MarkLogicSinkConfig extends AbstractConfig {
 	private static final String BATCH_SIZE_DOC = "ml batch size";
 	
 	public static final String WRITER_IMPL = "ml.writer.impl";
-	private static final String WRITER_IMPL_DEFAULT = MarkLogicWriter.class.getCanonicalName();
+	private static final String WRITER_IMPL_DEFAULT = MarkLogicBufferedWriter.class.getCanonicalName();
 	private static final String WRITER_IMPL_DOC = "ml writer implementation class name";
 	
 	public static final String MAX_RETRIES = "max.retries";

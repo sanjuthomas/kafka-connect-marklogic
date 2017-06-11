@@ -1,4 +1,4 @@
-package org.sanju.kafka.connect.marklogic;
+package kafka.connect.marklogic;
 
 import static org.junit.Assert.assertEquals;
 
@@ -9,13 +9,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+import kafka.connect.marklogic.beans.Account;
+import kafka.connect.marklogic.beans.Client;
+import kafka.connect.marklogic.beans.QuoteRequest;
+
 import org.apache.http.client.ClientProtocolException;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.junit.Before;
 import org.junit.Test;
-import org.sanju.kafka.connect.marklogic.beans.Account;
-import org.sanju.kafka.connect.marklogic.beans.Client;
-import org.sanju.kafka.connect.marklogic.beans.QuoteRequest;
 
 /**
  * 
@@ -47,6 +48,8 @@ public class TestMarkLogicBufferedWriter extends AbstractTest{
         assertEquals("IBM", qr.getSymbol());
         qr = super.find("/C3/A3/Q3.json");
         assertEquals("GS", qr.getSymbol());
+        super.delete("/C3/A3/Q3.json");
+        super.delete("/C2/A2/Q2.json");
     }
     
 }
