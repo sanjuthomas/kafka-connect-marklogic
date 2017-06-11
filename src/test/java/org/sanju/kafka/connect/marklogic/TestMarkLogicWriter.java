@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.junit.Before;
@@ -23,14 +22,14 @@ import org.sanju.kafka.connect.marklogic.beans.QuoteRequest;
  * @author Sanju Thomas
  *
  */
-public class TestMarkLogicDefaultWriter extends AbstractTest{
+public class TestMarkLogicWriter extends AbstractTest{
 	
 	private Writer writer;
 
 	@Before
 	public void setup(){
 	    super.setup();
-		writer = new MarkLogicDefaultWriter(super.conf);
+		writer = new MarkLogicWriter(super.conf);
 	}
 	
 	@Test
@@ -44,9 +43,8 @@ public class TestMarkLogicDefaultWriter extends AbstractTest{
 		documents.add(new SinkRecord("topic", 1, null, null, null, MAPPER.convertValue(quoteRequest, Map.class), 0));
 		writer.write(documents);
 		
-		final HttpResponse response = super.get("/C1/A1/Q1.json");
-		final QuoteRequest qr = MAPPER.readValue(response.getEntity().getContent(), QuoteRequest.class);
-		assertEquals("APPL", qr.getSymbol());
+		QuoteRequest qr = super.find("/C1/A1/Q1.json");
+	    assertEquals("APPL", qr.getSymbol());
 	}
 }
 

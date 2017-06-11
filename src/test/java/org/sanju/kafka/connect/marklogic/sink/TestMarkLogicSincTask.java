@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.junit.Before;
@@ -48,8 +47,7 @@ public class TestMarkLogicSincTask extends AbstractTest{
 		documents.add(new SinkRecord("trades", 1, null, null, null,  MAPPER.convertValue(quoteRequest, Map.class), 0));
 		markLogicSinkTask.put(documents);
 		
-        final HttpResponse response = super.get("/C1/A1/Q1.json");
-        final QuoteRequest qr = MAPPER.readValue(response.getEntity().getContent(), QuoteRequest.class);
+		QuoteRequest qr = super.find("/C1/A1/Q1.json");
         assertEquals("APPL", qr.getSymbol());
 	}
 }

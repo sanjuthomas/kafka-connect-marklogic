@@ -23,7 +23,7 @@
             <version>0.10.2.0</version>
             <scope>provided</scope>
         </dependency>
-        
+
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
@@ -37,23 +37,21 @@
             <version>2.8.5</version>
             <scope>provided</scope>
         </dependency>
-        
 
         <dependency>
-            <groupId>org.apache.httpcomponents</groupId>
-            <artifactId>httpclient</artifactId>
-            <version>4.5.2</version>
+            <groupId>com.marklogic</groupId>
+            <artifactId>marklogic-client-api</artifactId>
+            <version>4.0.1</version>
         </dependency>
 
-      
         <dependency>
             <groupId>log4j</groupId>
             <artifactId>log4j</artifactId>
             <version>1.2.17</version>
             <scope>test</scope>
         </dependency>
-        
-         <dependency>
+
+        <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
@@ -92,9 +90,19 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-                                    <include>httpclient-4.5.2.jar</include>
-                                    <include>commons-logging-1.2.jar</include>
-                                    <include>httpcore-4.4.4.jar</include>
+                                    <include>asm-5.0.3.jar</include>
+                                    <include>asm-analysis-5.0.3.jar</include>
+                                    <include>asm-tree-5.0.3.jar</include>
+                                    <include>asm-util-5.0.3.jar</include>
+                                    <include>commons-codec-1.4.jar</include>
+                                    <include>commons-logging-1.1.1.jar</include>
+                                    <include>httpclient-4.1.1.jar</include>
+                                    <include>httpcore-4.1.jar</include>
+                                    <include>jersey-apache-client4-1.17.jar</include>
+                                    <include>jersey-client-1.17.jar</include>
+                                    <include>jersey-core-1.17.jar</include>
+                                    <include>jersey-multipart-1.17.jar</include>
+                                    <include>marklogic-client-api-4.0.1.jar</include>
                                     <include>org/sanju/**</include>
                                 </includes>
                                 <excludes>

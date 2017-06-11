@@ -6,7 +6,7 @@ import org.apache.kafka.common.config.AbstractConfig;
 import org.apache.kafka.common.config.ConfigDef;
 import org.apache.kafka.common.config.ConfigDef.Importance;
 import org.apache.kafka.common.config.ConfigDef.Type;
-import org.sanju.kafka.connect.marklogic.MarkLogicDefaultWriter;
+import org.sanju.kafka.connect.marklogic.MarkLogicWriter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -19,8 +19,11 @@ public class MarkLogicSinkConfig extends AbstractConfig {
     
     private static final Logger logger = LoggerFactory.getLogger(MarkLogicSinkConfig.class);
 	
-	public static final String CONNECTION_URL = "ml.connection.url";
-	private static final String CONNECTION_URL_DOC = "ml application server connection URL";
+	public static final String CONNECTION_HOST = "ml.connection.host";
+	private static final String CONNECTION_HOST_DOC = "ml application server hostname";
+	
+	public static final String CONNECTION_PORT = "ml.connection.port";
+    private static final String CONNECTION_PORT_DOC = "ml application server port";
 	
 	public static final String CONNECTION_USER = "ml.connection.user";
 	private static final String CONNECTION_USER_DOC = "ml connection user.";
@@ -33,7 +36,7 @@ public class MarkLogicSinkConfig extends AbstractConfig {
 	private static final String BATCH_SIZE_DOC = "ml batch size";
 	
 	public static final String WRITER_IMPL = "ml.writer.impl";
-	private static final String WRITER_IMPL_DEFAULT = MarkLogicDefaultWriter.class.getCanonicalName();
+	private static final String WRITER_IMPL_DEFAULT = MarkLogicWriter.class.getCanonicalName();
 	private static final String WRITER_IMPL_DOC = "ml writer implementation class name";
 	
 	public static final String MAX_RETRIES = "max.retries";
@@ -45,7 +48,8 @@ public class MarkLogicSinkConfig extends AbstractConfig {
 	private static final String RETRY_BACKOFF_MS_DOC = "The time in milliseconds to wait following an error/exception before a retry attempt is made.";
 	
 	public static ConfigDef CONFIG_DEF = new ConfigDef()
-			.define(CONNECTION_URL, Type.STRING, Importance.HIGH, CONNECTION_URL_DOC)
+			.define(CONNECTION_HOST, Type.STRING, Importance.HIGH, CONNECTION_HOST_DOC)
+			.define(CONNECTION_PORT, Type.INT, Importance.HIGH, CONNECTION_PORT_DOC)
 			.define(CONNECTION_USER, Type.STRING, Importance.HIGH, CONNECTION_USER_DOC)
 			.define(CONNECTION_PASSWORD, Type.STRING, Importance.LOW, CONNECTION_PASSWORD_DOC)
 			.define(BATCH_SIZE, Type.INT, BATCH_SIZE_DEFAULT, Importance.MEDIUM, BATCH_SIZE_DOC)

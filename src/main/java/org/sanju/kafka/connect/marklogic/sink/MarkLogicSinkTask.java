@@ -10,7 +10,7 @@ import org.apache.kafka.connect.errors.ConnectException;
 import org.apache.kafka.connect.errors.RetriableException;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.apache.kafka.connect.sink.SinkTask;
-import org.sanju.kafka.connect.marklogic.MarkLogicDefaultWriter;
+import org.sanju.kafka.connect.marklogic.MarkLogicWriter;
 import org.sanju.kafka.connect.marklogic.Writer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,7 +75,7 @@ public class MarkLogicSinkTask extends SinkTask {
         final String writerClazz = config.get(MarkLogicSinkConfig.WRITER_IMPL);
         logger.info("MarkLogic writer class {}", writerClazz);
         if(null == writerClazz || writerClazz.trim().isEmpty()){
-            this.writer = new MarkLogicDefaultWriter(config);
+            this.writer = new MarkLogicWriter(config);
         }else{
             try {
                 final Constructor<?> c = Class.forName(writerClazz).getConstructor(Map.class);

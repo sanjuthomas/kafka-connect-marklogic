@@ -9,7 +9,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.http.HttpResponse;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.junit.Before;
@@ -44,11 +43,9 @@ public class TestMarkLogicBufferedWriter extends AbstractTest{
         documents.add(new SinkRecord("topic", 1, null, null, null, MAPPER.convertValue(quoteRequest2, Map.class), 0));
         writer.write(documents);
         
-        HttpResponse response = super.get("/C2/A2/Q2.json");
-        QuoteRequest qr = MAPPER.readValue(response.getEntity().getContent(), QuoteRequest.class);
+        QuoteRequest qr = super.find("/C2/A2/Q2.json");
         assertEquals("IBM", qr.getSymbol());
-        response = super.get("/C3/A3/Q3.json");
-        qr = MAPPER.readValue(response.getEntity().getContent(), QuoteRequest.class);
+        qr = super.find("/C3/A3/Q3.json");
         assertEquals("GS", qr.getSymbol());
     }
     
