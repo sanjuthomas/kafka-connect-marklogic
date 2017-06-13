@@ -90,9 +90,6 @@
                         </goals>
                         <configuration>
                             <artifactSet>
-                                <includes>
-                                    <include>marklogic-client-api-4.0.1.jar</include>
-                                </includes>
                                 <excludes>
                                     <exclude>org/xerial/**</exclude>
                                 </excludes>
