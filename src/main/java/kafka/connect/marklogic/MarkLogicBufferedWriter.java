@@ -26,13 +26,11 @@ public class MarkLogicBufferedWriter extends MarkLogicWriter implements Writer{
 	private final int batchSize;
 	private final BufferedRecords bufferedRecords;
 	private final DataMovementManager manager;
-	private final WriteBatcher batcher;
 	
 	public MarkLogicBufferedWriter(final Map<String, String> config){ 
 	    super(config);
 	    bufferedRecords = new BufferedRecords();
 	    manager = super.client.newDataMovementManager();
-	    batcher = manager.newWriteBatcher();
 	    batchSize = Integer.valueOf(config.get(MarkLogicSinkConfig.BATCH_SIZE));
 	}
 	
@@ -63,6 +61,8 @@ public class MarkLogicBufferedWriter extends MarkLogicWriter implements Writer{
     
 
     private void flush() {
+        
+        final WriteBatcher batcher = manager.newWriteBatcher();
         
         batcher.withBatchSize(batchSize).withThreadCount(8).onBatchFailure((b, t) -> {
             logger.error("batch write failed {}", t);
