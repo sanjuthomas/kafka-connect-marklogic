@@ -92,18 +92,7 @@
                         <configuration>
                             <artifactSet>
                                 <includes>
-                                    <include>asm-5.0.3.jar</include>
-                                    <include>asm-analysis-5.0.3.jar</include>
-                                    <include>asm-tree-5.0.3.jar</include>
-                                    <include>asm-util-5.0.3.jar</include>
-                                    <include>commons-codec-1.4.jar</include>
-                                    <include>commons-logging-1.1.1.jar</include>
-                                    <include>httpclient-4.1.1.jar</include>
-                                    <include>httpcore-4.1.jar</include>
-                                    <include>jersey-apache-client4-1.17.jar</include>
-                                    <include>jersey-client-1.17.jar</include>
-                                    <include>jersey-core-1.17.jar</include>
-                                    <include>jersey-multipart-1.17.jar</include>
+                                    <include>marklogic-client-api-4.0.1.jar</include>
                                 </includes>
                                 <excludes>
                                     <exclude>org/xerial/**</exclude>
@@ -111,8 +100,7 @@
                             </artifactSet>
 
                             <transformers>
-                                <transformer
-                                    implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
+                                <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
                             </transformers>
                         </configuration>
                     </execution>
