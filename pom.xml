@@ -87,7 +87,6 @@
                         <phase>package</phase>
                         <goals>
                             <goal>shade</goal>
-
                         </goals>
                         <configuration>
                             <artifactSet>
@@ -98,7 +97,6 @@
                                     <exclude>org/xerial/**</exclude>
                                 </excludes>
                             </artifactSet>
-
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
                             </transformers>
