@@ -5,7 +5,7 @@ Kafka Connect MarkLogic is a sink only connector to pull messages from Kafka to 
 1. Near realtime ingestion requirements.
 2. Regulate the traffic towards MarkLogic.
 3. Requirement to maintain the order of the messages. 
-4. A Kafka echosystem exist.
+4. A Kafka ecosystem exist.
 5. Replay messages using an offset.
 
 ## High Level Architecture Diagram
