@@ -92,6 +92,9 @@ Please refer to [CONTRIBUTING.md](https://github.com/sanjuthomas/kafka-connect-m
 
 ## License
 The project is licensed under the MIT license.
+
+## Looking for a connector that supports XML messages?
+Drop an email at ml@sanju.org
  
 
 
