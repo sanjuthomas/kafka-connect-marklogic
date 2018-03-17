@@ -1,6 +1,6 @@
 # Overview
 
-Kafka Connect MarkLogic is a sink only connector to pull messages from Kafka to store in MarkLogic as JSON documents. Consider using Kafka MarkLogic Sync Connector for the following usecases. This branch is written for ML9 and DMSDK.
+Kafka Connect MarkLogic is a sink only connector to pull messages from Kafka to store in MarkLogic as JSON documents. Consider using Kafka MarkLogic Sync Connector for the following usecases.
 
 1. Near realtime ingestion requirements.
 2. Regulate the traffic towards MarkLogic.
