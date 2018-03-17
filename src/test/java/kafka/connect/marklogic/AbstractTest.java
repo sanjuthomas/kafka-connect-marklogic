@@ -1,27 +1,18 @@
 package kafka.connect.marklogic;
 
-import java.io.IOException;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
+import kafka.connect.marklogic.beans.QuoteRequest;
 import kafka.connect.marklogic.sink.MarkLogicSinkConfig;
 
-import org.apache.http.HttpResponse;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.CredentialsProvider;
-import org.apache.http.client.methods.HttpDelete;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.client.methods.HttpRequestBase;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.client.utils.URIBuilder;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.marklogic.client.DatabaseClient;
+import com.marklogic.client.DatabaseClientFactory;
+import com.marklogic.client.DatabaseClientFactory.DigestAuthContext;
+import com.marklogic.client.document.DocumentPage;
+import com.marklogic.client.document.JSONDocumentManager;
+import com.marklogic.client.io.JacksonHandle;
 
 /**
  * 
@@ -32,61 +23,38 @@ public abstract class AbstractTest {
     
     protected static final ObjectMapper MAPPER = new ObjectMapper();
     protected final Map<String, String> conf = new HashMap<>();
+    protected JSONDocumentManager manager;
+    protected DatabaseClient client;
 
     public void setup(){
 
-        conf.put(MarkLogicSinkConfig.CONNECTION_URL, "http://localhost:8000/v1/documents");
+        conf.put(MarkLogicSinkConfig.CONNECTION_HOST, "localhost");
+        conf.put(MarkLogicSinkConfig.CONNECTION_PORT, "8000");
         conf.put(MarkLogicSinkConfig.CONNECTION_USER, "admin");
         conf.put(MarkLogicSinkConfig.CONNECTION_PASSWORD, "admin");
         conf.put(MarkLogicSinkConfig.BATCH_SIZE, "100");
-        conf.put(MarkLogicSinkConfig.WRITER_IMPL, MarkLogicDefaultWriter.class.getCanonicalName());
+        conf.put(MarkLogicSinkConfig.WRITER_IMPL, MarkLogicWriter.class.getCanonicalName());
         conf.put(MarkLogicSinkConfig.RETRY_BACKOFF_MS, "100");
         conf.put(MarkLogicSinkConfig.MAX_RETRIES, "10");
         conf.put("topics", "trades");
-    }
-    
-
-
-    protected HttpResponse get(String url) throws ClientProtocolException, IOException, URISyntaxException {
-
-        final CloseableHttpClient httpClient = HttpClients.createDefault();
-        final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-        credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("admin", "admin"));
-        final HttpClientContext localContext = HttpClientContext.create();
-        localContext.setCredentialsProvider(credentialsProvider);
-        return httpClient.execute(createGet(url), localContext);
-    }
-    
-    protected HttpResponse delete(String url) throws ClientProtocolException, IOException, URISyntaxException{
         
-        final CloseableHttpClient httpClient = HttpClients.createDefault();
-        final CredentialsProvider credentialsProvider = new BasicCredentialsProvider();
-        credentialsProvider.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials("admin", "admin"));
-        final HttpClientContext localContext = HttpClientContext.create();
-        localContext.setCredentialsProvider(credentialsProvider);
-        return httpClient.execute(createDelete(url), localContext);
+        client = DatabaseClientFactory.newClient("localhost", 8000, new DigestAuthContext("admin", "admin"));
+        manager = client.newJSONDocumentManager();
     }
 
-    private HttpRequestBase createGet(final String uri) throws URISyntaxException {
-
-        final URIBuilder uriBuilder = getURIBuilder();
-        uriBuilder.addParameter("uri", uri);
-        return new HttpGet(uriBuilder.build());
+    public QuoteRequest find(String url){
+        
+        final DocumentPage documentPage = manager.read(url);
+        if(documentPage.hasNext()){
+            JacksonHandle handle = new JacksonHandle();
+            handle = documentPage.nextContent(handle);
+            return MAPPER.convertValue(handle.get(), QuoteRequest.class);
+        }
+        return null;
     }
     
-    private HttpRequestBase createDelete(final String uri) throws URISyntaxException {
-
-        final URIBuilder uriBuilder = getURIBuilder();
-        uriBuilder.addParameter("uri", uri);
-        return new HttpDelete(uriBuilder.build());
+    public void delete(String url){
+        manager.delete(url);
     }
-
-    private URIBuilder getURIBuilder() {
-
-        final URIBuilder builder = new URIBuilder();
-        builder.setScheme("http").setHost("localhost").setPort(8000)
-                .setPath("/v1/documents");
-        return builder;
-    }
-
+   
 }

@@ -4,7 +4,7 @@ import java.lang.reflect.Constructor;
 import java.util.Collection;
 import java.util.Map;
 
-import kafka.connect.marklogic.MarkLogicDefaultWriter;
+import kafka.connect.marklogic.MarkLogicWriter;
 import kafka.connect.marklogic.Writer;
 
 import org.apache.kafka.clients.consumer.OffsetAndMetadata;
@@ -76,7 +76,7 @@ public class MarkLogicSinkTask extends SinkTask {
         final String writerClazz = config.get(MarkLogicSinkConfig.WRITER_IMPL);
         logger.info("MarkLogic writer class {}", writerClazz);
         if(null == writerClazz || writerClazz.trim().isEmpty()){
-            this.writer = new MarkLogicDefaultWriter(config);
+            this.writer = new MarkLogicWriter(config);
         }else{
             try {
                 final Constructor<?> c = Class.forName(writerClazz).getConstructor(Map.class);

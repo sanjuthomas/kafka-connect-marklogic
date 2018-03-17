@@ -2,29 +2,36 @@ package kafka.connect.marklogic;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 import kafka.connect.marklogic.sink.MarkLogicSinkConfig;
 
+import org.apache.kafka.connect.errors.RetriableException;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.marklogic.client.datamovement.DataMovementManager;
+import com.marklogic.client.datamovement.WriteBatcher;
 
 /**
  * 
  * @author Sanju Thomas
  *
  */
-public class MarkLogicBufferedWriter extends MarkLogicWriter{
+public class MarkLogicBufferedWriter extends MarkLogicWriter implements Writer{
 	
 	private static final Logger logger = LoggerFactory.getLogger(MarkLogicBufferedWriter.class);
 	private final int batchSize;
-	private final BufferedRecords bufferedRecords = new BufferedRecords();
+	private final BufferedRecords bufferedRecords;
+	private final DataMovementManager manager;
 	
 	public MarkLogicBufferedWriter(final Map<String, String> config){ 
 	    super(config);
+	    bufferedRecords = new BufferedRecords();
+	    manager = super.client.newDataMovementManager();
 	    batchSize = Integer.valueOf(config.get(MarkLogicSinkConfig.BATCH_SIZE));
-	    
 	}
 	
 	/**
@@ -44,24 +51,33 @@ public class MarkLogicBufferedWriter extends MarkLogicWriter{
 	            logger.debug("flushed the buffer");
 	        }
 	    }
-
-        /**
-         * As of today, there is no batch support.
-         * This implementation stream the data into MarkLogic.
-         * Batch support will be added for ML9 using DMSDK.
-         */
-        void flush() {
-            forEach(record -> {
-                process(createPutRequest(record.value(), record.topic()));
-            });
-            clear();
-        }
 	}
 
     @Override
     public void write(final Collection<SinkRecord> recrods) {
        recrods.forEach(r -> bufferedRecords.buffer(r));
-       bufferedRecords.flush();
+       flush();
+    }
+    
+
+    private void flush() {
+        
+        final WriteBatcher batcher = manager.newWriteBatcher();
+        
+        batcher.withBatchSize(batchSize).withThreadCount(8).onBatchFailure((b, t) -> {
+            logger.error("batch write failed {}", t);
+            throw new RetriableException(t.getMessage());
+        });
+        
+        manager.startJob(batcher);
+        this.bufferedRecords.forEach(r -> {
+            final Map<?, ?> v = new LinkedHashMap<>((Map<?,?>) r.value());
+            batcher.add(super.url(v), super.handle(v));
+        });
+        
+        batcher.flushAndWait();
+        manager.stopJob(batcher);
+        bufferedRecords.clear();
     }
     
 }
