@@ -13,7 +13,7 @@ Please refer to [this](https://github.com/sanjuthomas/kafka-connect-marklogic/tr
 
 ## High Level Architecture Diagram
 
-![Kafka Connect MarkLogic](kafka-model-arch.png)
+![Kafka Connect MarkLogic](KafkaConnectMarkLogic.png)
 
 This project is about the component marked in green. Refer [here](http://confluent.io/product/connectors) to see the available list of source connectors.
 
