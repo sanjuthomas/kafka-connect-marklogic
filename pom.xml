@@ -8,7 +8,7 @@
     <packaging>jar</packaging>
 
     <name>kafka-connect-marklogic</name>
-    <url>http://marklogic.com</url>
+    <url>http://sanjuthomas.com</url>
     <description>A Kafka connector for copying data between MarkLogic and Kafka.</description>
 
     <properties>
