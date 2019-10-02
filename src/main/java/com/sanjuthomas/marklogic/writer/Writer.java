@@ -1,4 +1,4 @@
-package kafka.connect.marklogic;
+package com.sanjuthomas.marklogic.writer;
 
 import java.util.Collection;
 

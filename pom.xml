@@ -1,4 +1,6 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.sanjuthomas</groupId>
@@ -24,6 +26,7 @@
 		<connect-json.version>2.3.0</connect-json.version>
 		<marklogic-client-api.version>4.1.1</marklogic-client-api.version>
 		<commons-beanutils.version>1.9.3</commons-beanutils.version>
+		<google.guava.version>28.1-jre</google.guava.version>
 	</properties>
 
 	<developers>
@@ -65,6 +68,12 @@
 		</dependency>
 
 		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>${google.guava.version}</version>
+		</dependency>
+
+		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
 			<version>${slf4j-api.version}</version>
@@ -97,14 +106,14 @@
 			<version>${junit-jupiter-api.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-engine</artifactId>
 			<version>${junit-jupiter-engine.version}</version>
 			<scope>test</scope>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.junit.jupiter</groupId>
 			<artifactId>junit-jupiter-params</artifactId>
@@ -253,7 +262,9 @@
 							<title>Kafka Connect MarkLogic</title>
 							<documentationUrl>https://github.com/sanjuthomas/kafka-connect-marklogic/blob/master/README.md</documentationUrl>
 							<description>
-								The MarkLogic sink connector allows moving data from Kafka to MarkLogic document store. It writes data from a topic in Kafka to a collection in MarkLogic.
+								The MarkLogic sink connector allows moving data from
+								Kafka to MarkLogic document store. It writes data from a topic
+								in Kafka to a collection in MarkLogic.
 							</description>
 							<supportProviderName>Open Source Community</supportProviderName>
 							<supportSummary>Support provided through community involvement.</supportSummary>

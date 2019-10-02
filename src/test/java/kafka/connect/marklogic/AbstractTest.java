@@ -13,6 +13,7 @@ import com.marklogic.client.DatabaseClientFactory.DigestAuthContext;
 import com.marklogic.client.document.DocumentPage;
 import com.marklogic.client.document.JSONDocumentManager;
 import com.marklogic.client.io.JacksonHandle;
+import com.sanjuthomas.marklogic.writer.MarkLogicWriter;
 
 /**
  * 

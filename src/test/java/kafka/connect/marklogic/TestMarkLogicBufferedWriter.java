@@ -17,6 +17,8 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.kafka.connect.sink.SinkRecord;
 import org.junit.Before;
 import org.junit.Test;
+import com.sanjuthomas.marklogic.writer.MarkLogicBufferedWriter;
+import com.sanjuthomas.marklogic.writer.Writer;
 
 /**
  * 
