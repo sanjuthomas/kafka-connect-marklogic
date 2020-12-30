@@ -8,9 +8,6 @@ Kafka Connect MarkLogic is a sink only connector to pull messages from Kafka to 
 4. A Kafka ecosystem exists.
 5. Replay messages using an offset.
 
-## MarkLogic 8 Implementation 
-Please refer to [this](https://github.com/sanjuthomas/kafka-connect-marklogic/tree/MARKLOGIC-8) branch for MarkLogic 8 version.
-
 ## High Level Architecture Diagram
 
 ![Kafka Connect MarkLogic](KafkaConnectMarkLogic.png)
