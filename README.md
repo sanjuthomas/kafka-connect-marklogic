@@ -16,19 +16,19 @@ This project is about the component marked in green. Refer [here](http://conflue
 
 ## Prerequisites
 
-[Apache ZooKeeper](https://zookeeper.apache.org) and [Apache Kafka](https://kafka.apache.org) installed and running in your machine. Please refer to respective sites to download and start ZooKeeper and Kafka. 
+[Apache ZooKeeper](https://zookeeper.apache.org) and [Apache Kafka](https://kafka.apache.org) are installed and running on your machine. Please refer to respective sites to download and start ZooKeeper and Kafka. 
 
 ## What is MarkLogic?
-The MarkLogic is a multi-model schemaless NoSQL database to store, manage, and search JSON, XML, and RDF triples. For more details, please refer to MarkLogic official [website](marklogic.com).
+The MarkLogic is a multi-model schemaless NoSQL database to store, manage, and search JSON, XML, and RDF triples. For more details, please refer to MarkLogic's official [website](marklogic.com).
 
 ## What is Apache Kafka?
-Apache Kafka is an open-source stream processing platform developed by the Apache Software Foundation written in Scala and Java. The project aims to provide a unified, high-throughput, low-latency platform for handling real-time data feeds. For more details, please refer to [kafka home page](https://kafka.apache.org/).
+Apache Kafka is an open-source stream processing platform written in Scala and Java by the Apache Software Foundation. The project aims to provide a unified, high-throughput, low-latency platform for handling real-time data feeds. For more details, please refer to the [kafka home page](https://kafka.apache.org/).
 
 ## Implementation details 
 
-To send data to MarkLogic, this connector make use of MarkLogic REST API. By default the /v1/documents endpoint at port 8000 is used. You may change that in the marklogic-sink.properties file. You may use your own REST/Service extension instead of the out of the box document API to do any transformation on the way in.
+To send data to MarkLogic, this connector makes use of MarkLogic REST API. By default, the /v1/documents endpoint at port 8000 is used. You may change that in the marklogic-sink.properties file. You may use your own REST/Service extension instead of the out-of-the-box document API to transform anything on the way in.
 
-To listen to multiple topics, please add the topic name in the marklogic-sink.properties file. Current implementation will take the topic name and use it as the MarkLogic document collection name.
+To listen to multiple topics, please add the topic name in the marklogic-sink.properties file. The current implementation will take the topic name and use it as the MarkLogic document collection name.
 
 ## Data Mapping
 
@@ -62,17 +62,17 @@ Copy the [marklogic-sink.properties](https://github.com/sanjuthomas/kafka-connec
 
 Alternatively, you may keep the ```kafka-connect-marklogic-1.0.jar``` in another directory and export that directory into Kafka class path before starting the connector.
 
-## How to start connector in stand-alone mode?
+## How to start the connector in stand-alone mode?
 
-Open a shell prompt, move to kafka_home and execute the following.
+Open a shell prompt, move to kafka_home, and execute the following.
 
 ```
 bin/connect-standalone.sh config/marklogic-connect-standalone.properties config/marklogic-sink.properties
 ```
 
-## How to start connector in distribute mode?
+## How to start the connector in distributed mode?
 
-Open a shell prompt, move to kafka_home and execute the following.
+Open a shell prompt, move to kafka_home, and execute the following.
 
 ```
 bin/connect-distributed.sh config/marklogic-connect-distributed.properties config/marklogic-sink.properties
@@ -80,7 +80,7 @@ bin/connect-distributed.sh config/marklogic-connect-distributed.properties confi
 
 ## How to produce some messages?
 
-A couple of example message producers are available [here](https://github.com/sanjuthomas/marklogic-kafka-sample-client).
+A couple of examples message producers are available [here](https://github.com/sanjuthomas/marklogic-kafka-sample-client).
 
 ## Contact
 
