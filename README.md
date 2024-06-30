@@ -1,14 +1,14 @@
 # Overview
 
-Kafka Connect MarkLogic is a sink only connector to pull messages from Kafka to store in MarkLogic as JSON documents. Consider using Kafka MarkLogic Sync Connector for the following usecases.
+Kafka Connect MarkLogic is a sink-only connector that pulls messages from Kafka and stores them in MarkLogic as JSON documents. Consider using the Kafka MarkLogic Sync Connector for the following use cases.
 
-1. Near realtime ingestion requirements.
+1. Near real-time ingestion requirements.
 2. Regulate the traffic towards MarkLogic.
 3. Requirement to maintain the order of the messages. 
 4. A Kafka ecosystem exists.
 5. Replay messages using an offset.
 
-## High Level Architecture Diagram
+## High-Level Architecture Diagram
 
 ![Kafka Connect MarkLogic](KafkaConnectMarkLogic.png)
 
@@ -26,7 +26,7 @@ Apache Kafka is an open-source stream processing platform written in Scala and J
 
 ## Implementation details 
 
-To send data to MarkLogic, this connector makes use of MarkLogic REST API. By default, the /v1/documents endpoint at port 8000 is used. You may change that in the marklogic-sink.properties file. You may use your own REST/Service extension instead of the out-of-the-box document API to transform anything on the way in.
+To send data to MarkLogic, this connector uses MarkLogic REST API. By default, the /v1/documents endpoint at port 8000 is used. You may change that in the marklogic-sink.properties file. You may use your own REST/Service extension instead of the out-of-the-box document API to transform anything on the way in.
 
 To listen to multiple topics, please add the topic name in the marklogic-sink.properties file. The current implementation will take the topic name and use it as the MarkLogic document collection name.
 
@@ -50,9 +50,9 @@ value.converter.schemas.enable=false
 
 In distributed mode, if you run more than one worker per host, the ```rest.port``` settings must have different values for each instance. By default REST interface is available at 8083.
 
-## How to deploy the connector in Kafka?
+## How do you deploy the connector in Kafka?
 
-This is maven project. To create an [uber](https://maven.apache.org/plugins/maven-shade-plugin/index.html) jar, execute the following maven goals.
+This is a maven project. To create an [uber](https://maven.apache.org/plugins/maven-shade-plugin/index.html) jar, execute the following maven goals.
 
 ```mvn clean compile package shade:shade install```
 
@@ -80,7 +80,7 @@ bin/connect-distributed.sh config/marklogic-connect-distributed.properties confi
 
 ## How to produce some messages?
 
-A couple of examples message producers are available [here](https://github.com/sanjuthomas/marklogic-kafka-sample-client).
+Some examples of message producers are available [here](https://github.com/sanjuthomas/marklogic-kafka-sample-client).
 
 ## Contact
 
